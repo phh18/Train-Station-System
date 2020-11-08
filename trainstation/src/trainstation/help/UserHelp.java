@@ -3,6 +3,7 @@ package trainstation.help;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import trainstation.model.User;
 
@@ -39,6 +40,50 @@ public class UserHelp {
             printSQLException(e);
         }
         return result;
+    }
+	
+	/*
+	 * Verifies user logins.
+	 * Parameter:
+	 * 	String userName, String password
+	 * Return:
+	 * 	null - if username and password combination does not exist in the database
+	 * 	User object - if username and password combination exist in the database
+	 */
+	public User login(String userName, String password) throws ClassNotFoundException {
+		
+        String SELECT_USER_SQL = "SELECT userName, firstName, lastName, password, ssn, email, userRole from users" +
+            "  WHERE userName = ? and password = ?;";
+        
+        ResultSet result = null;
+        User user = null;
+        Class.forName("com.mysql.jdbc.Driver");
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            PreparedStatement query = connection.prepareStatement(SELECT_USER_SQL)) {
+        	query.setString(1, userName);
+        	query.setString(2, password);
+            System.out.println(query);
+            result = query.executeQuery();
+            
+            if(!result.next()) {
+            	return null;
+            }
+            user = new User(
+            		result.getString(1),	//userName
+            		result.getString(2), 	//firstName
+            		result.getString(3), 	//lastName
+            		result.getString(4), 	//password
+            		result.getString(5), 	//ssn
+            		result.getString(6),	//email
+            		result.getString(7)		//userRole
+            );
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        
+        return user;
     }
 
     private void printSQLException(SQLException ex) {
