@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import trainstation.model.User;
 
 public class UserHelp {
@@ -85,6 +87,44 @@ public class UserHelp {
         
         return user;
     }
+	public ArrayList<User> getAllUsers () throws ClassNotFoundException {
+		 String SELECT_USERS_SQL = "SELECT * FROM users";
+		 ArrayList<User> users = new ArrayList<User>();
+
+		       // User[] result = new User[100];
+		 		ResultSet result = null;
+		        Class.forName("com.mysql.jdbc.Driver");
+
+		        try (Connection connection = DriverManager
+		            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+		            // Step 2:Create a statement using connection object
+		            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USERS_SQL)) {
+		            System.out.println(preparedStatement);
+		            // Step 3: Execute the query or update query
+		            result = preparedStatement.executeQuery();
+		            if (!result.next()) {
+		            	return null;
+		            }
+		            while (result.next()) {
+		            	String userName = result.getString("userName");
+		            	String firstName = result.getString("firstName");
+		            	String lastName = result.getString("lastName");
+		            	String password = result.getString("password");
+		            	String SSN = result.getString("SSN");
+		            	String email = result.getString("email");
+		            	String userRole = result.getString("userRole");
+		            	
+		            	users.add(new User(userName, firstName, lastName, password, SSN, email, userRole));
+		            }
+
+		        } catch (SQLException e) {
+		            // process sql exception
+		            printSQLException(e);
+		        }
+		        return users;
+		
+	}
 
     private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {
