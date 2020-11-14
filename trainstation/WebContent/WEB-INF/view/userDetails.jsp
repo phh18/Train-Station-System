@@ -8,5 +8,9 @@
 </head>
 <body>
 	<h1>Good Job!!!</h1>
+	<div><%= request.getContextPath() %></div>
+	<form action="<%= request.getContextPath() %>/logout">
+    	<button type="submit" value="Logout">Logout</button>
+	</form>
 </body>
 </html>
