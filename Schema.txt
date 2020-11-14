@@ -1,0 +1,72 @@
+show tables;
+desc users;
+desc reservation;
+create table users (
+    userName varchar(20) primary key,
+    firstName varchar(20),
+    lastName varchar(20),
+    password varchar(50),
+    SSN varchar(50),
+    email varchar(50),
+    userRole varchar(10) DEFAULT 'customer'
+    );
+
+create table train (
+    trainId varchar(4) primary key,
+    trainName varchar(20)
+);
+
+create table station(
+    stationId varchar(10) primary key,
+    stationName varchar(20),
+    cityName varchar(20),
+    state varchar(10)
+);
+
+create table trainSchedule (
+    trainId varchar(4),
+    stationId varchar(10),
+    fare int,
+    origin varchar(10),
+    destination varchar(10),
+    originTime DATE,
+    destinationTime DATE,
+    primary key (trainId),
+    foreign key (trainId) references train(trainId),
+    foreign key (origin) references station(stationId),
+    foreign key (destination) references station(stationId),
+    foreign key (stationId) references station(stationId)
+    
+);
+
+create table stop (
+    trainId varchar (4),
+    stationId varchar(10),
+    arrivalTime DATE,
+    departTime DATE,
+    primary key (trainId, stationId),
+    foreign key (trainId) references train(trainId),
+    foreign key (stationId) references station(stationId)
+
+);
+
+create table reservation (
+    reservationId varchar(10),
+    trainId varchar(4),
+    origin varchar (10),
+    destination varchar (10),
+    originTime DATE,
+    destinationTime DATE,
+    fare int,
+    userName varchar(20),
+    ticketType enum('children', 'normal', 'senior', 'disable') DEFAULT 'normal',
+    primary key (reservationId),
+    foreign key (trainId) references train (trainId),
+    foreign key (origin) references station (stationId),
+    foreign key (destination) references station (stationId),
+    foreign key (userName) references users(userName)
+);
+
+select * from users;
+insert into users (userName, firstName, lastName, password, SSN)
+values('lmt18asf8', 'Luan', 'Tran', '123456789', '8197-758-025');
