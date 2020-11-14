@@ -1,0 +1,11 @@
+127.0.0.1 - - [08/Nov/2020:16:24:27 -0500] "GET / HTTP/1.1" 404 748
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:24:27 -0500] "GET /trainstation/ HTTP/1.1" 404 683
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:24:36 -0500] "GET /trainstation/register HTTP/1.1" 200 2094
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:24:36 -0500] "GET /trainstation/assets/css/styles.css HTTP/1.1" 404 782
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:24:43 -0500] "GET /trainstation/login HTTP/1.1" 200 639
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:27:10 -0500] "POST /trainstation/login HTTP/1.1" 200 289
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:28:34 -0500] "POST /trainstation/login HTTP/1.1" 200 289
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:28:37 -0500] "POST /trainstation/login HTTP/1.1" 200 289
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:29:04 -0500] "GET /trainstation/logout? HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:29:04 -0500] "GET /trainstation/login HTTP/1.1" 200 639
+0:0:0:0:0:0:0:1 - - [08/Nov/2020:16:29:09 -0500] "POST /trainstation/login HTTP/1.1" 200 669

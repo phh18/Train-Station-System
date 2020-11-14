@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import= "java.util.ArrayList"%>
+<%@page import= "trainstation.model.User" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Login</title>
+<title>Register</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link href="http://localhost:8000/trainstation/assets/css/styles.css" rel="stylesheet"/>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -13,28 +19,39 @@
 </head>
 <body>
 
-<div align="center">
-  <h1>Login</h1>
-  <form action="<%= request.getContextPath() %>/login" method="post" class="register-form">
-   <table style="with: 80%">
-   	<tr>
-     ${message}
-   	</tr>
-   	<tr>
-     <td>UserName</td>
-     <td><input type="text" name="userName" placeholder="Username" required="required"/></td>
-    </tr>
-    <tr>
-     <td>Password</td>
-     <td><input type="password" name="password" placeholder="Password" required="required"/></td>
-    </tr>
-   </table>
-   <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  <button class="Button-link">
-     <a href="/trainstation/register" >No account yet? Register Instantly</a>
-   </button>
- </div>
+<div>
+<% ArrayList<User> users = (ArrayList<User>) request.getAttribute("users"); %>
+<table class="table table-hover">
+<caption>List of users</caption>
+<thead>
+  <tr>
+    <th scope="col">Username</th>
+    <th scope="col">First Name</th>
+    <th scope="col">Last Name</th>
+    <th scope="col">Password</th>
+    <th scope="col">SSN</th>
+    <th scope="col">email</th>
+    <th scope="col">Role</th>
+  </tr>
+</thead>
+<tbody>
+  <% for (User user: users){%>
+   <tr>
+    <th scope="row"><%= user.getUsername() %></th>
+    <td><%= user.getFirstName() %></td>
+    <td><%= user.getLastName() %></td>
+    <td><%= user.getPassword() %></td>
+    <td><%= user.getSSN() %></td>
+    <td><%= user.getEmail() %></td>
+    <td><%= user.getUserRole()%></td>
+  
+  </tr>
+  <%} %>
+  
+</tbody>
+</table>
+
+</div>
 
 </body>
 </html>
