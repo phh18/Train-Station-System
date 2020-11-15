@@ -14,27 +14,28 @@
 <body>
 
 <div align="center">
-  <h1>Login</h1>
-  <form action="<%= request.getContextPath() %>/login" method="post" class="register-form">
-   <table style="with: 80%">
-   	<tr>
-     ${message}
-   	</tr>
-   	<tr>
-     <td>UserName</td>
-     <td><input type="text" name="userName" placeholder="Username" required="required"/></td>
-    </tr>
-    <tr>
-     <td>Password</td>
-     <td><input type="password" name="password" placeholder="Password" required="required"/></td>
-    </tr>
-   </table>
-   <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  <button class="Button-link">
-     <a href="/trainstation/register" >No account yet? Register Instantly</a>
-   </button>
- </div>
+	<h1>Login</h1>
+	<form action="<%= request.getContextPath() %>/login" method="post" class="register-form">
+		<table style="with: 80%">
+			<tr>
+				${message}
+			</tr>
+			<tr>
+				<td>UserName</td>
+				<td><input type="text" name="userName" placeholder="Username" required="required"/></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="password" name="password" placeholder="Password" required="required"/></td>
+			</tr>
+		  </table>
+		  <button type="submit" class="btn btn-primary">Submit</button>
+	 </form>
+	 
+	<div>
+		Don't have an account? <a href="/trainstation/register">Sign up</a>
+	</div>
+</div>
 
 </body>
 </html>

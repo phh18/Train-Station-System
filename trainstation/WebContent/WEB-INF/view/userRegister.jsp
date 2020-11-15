@@ -14,44 +14,45 @@
 <body>
 
 <div align="center">
-  <h1>Sign Up</h1>
-  <form action="<%= request.getContextPath() %>/register" method="post" class="register-form">
-   <table style="with: 80%">
-   	<tr>
-     <td>UserName</td>
-     <td><input type="text" name="userName" placeholder="Username" required="required"/></td>
-    </tr>
-    <tr>
-     <td>First Name</td>
-     <td><input type="text" name="firstName" placeholder="First Name" required="required"/></td>
-    </tr>
-    <tr>
-     <td>Last Name</td>
-     <td><input type="text" name="lastName" placeholder="Last Name"/ required="required"></td>
-    </tr>
-    <tr>
-     <td>Password</td>
-     <td><input type="password" name="password" placeholder="Password" required="required"/></td>
-    </tr>
-    <tr>
-     <td>SSN</td>
-     <td><input type="text" name="SSN" placeholder="SSN" required="required"/></td>
-    </tr>
-    <tr>
-     <td>Email</td>
-     <td><input type="text" name="email" placeholder="Email" required="required"/></td>
-    </tr>
-    <tr>
-     <td>User Role</td>
-     <td><input type="text" name="userRole" placeholder="User Role" required="required"/></td>
-    </tr>
-   </table>
-   <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  <button class="Button-link">
-     <a href="/trainstation/login" >Already have account? Sign In Instantly</a>
-   </button>
- </div>
+	<h1>Sign Up</h1>
+	<form action="<%= request.getContextPath() %>/register" method="post" class="register-form">
+		<table style="with: 80%">
+			<tr>
+				<td>UserName</td>
+				<td><input type="text" name="userName" placeholder="Username" required="required"/></td>
+			</tr>
+			<tr>
+				<td>First Name</td>
+				<td><input type="text" name="firstName" placeholder="First Name" required="required"/></td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td><input type="text" name="lastName" placeholder="Last Name"/ required="required"></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="password" name="password" placeholder="Password" required="required"/></td>
+			</tr>
+			<tr>
+				<td>SSN</td>
+				<td><input type="text" name="SSN" placeholder="SSN" required="required"/></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="text" name="email" placeholder="Email" required="required"/></td>
+			</tr>
+			<tr>
+				<td>User Role</td>
+				<td><input type="text" name="userRole" placeholder="User Role" required="required"/></td>
+			</tr>
+		</table>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+	
+	<div>
+		Have an account? <a href="/trainstation/login" >Sign In</a>
+	</div>
+</div>
 
 </body>
 </html>
