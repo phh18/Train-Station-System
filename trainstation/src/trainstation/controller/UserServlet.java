@@ -57,7 +57,7 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String SSN = request.getParameter("SSN");
         String email = request.getParameter("email");
-        String userRole = request.getParameter("userRole");
+        String userRole = "customer";
         
         User user = new User(userName, firstName, lastName, password, SSN, email, userRole);
         
