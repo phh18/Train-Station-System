@@ -66,13 +66,8 @@ body{
 			<label id="email">Email</label>
 			<input type="text" id="email" name="email" placeholder="Email" class="form-control" required="required"/>
 		</div>
-		<div class="form-group" align="left">
-			<label for="user-role">User Role</label>
-			<input type="text" id="user-role" name="userRole" placeholder="User Role" class="form-control" required="required"/>
-		</div>
 		<button type="submit" class="btn btn-primary submit">Submit</button>
 	</form>
-	
 	<div class="link">
 		Have an account? <a href="/trainstation/login" >Sign In</a>
 	</div>
