@@ -23,13 +23,13 @@ body{
 }
 .main {
 	background-color: white;
-	padding: 5em 2em 2em 2em;
+	padding: 5em 2em 1em 2em;
 	width: 30em;
 	max-width: 100%;
 	margin: auto;
 	border-radius: 2%;
 }
-.summit{
+.submit{
 	margin: 1em 0 1em 0;
 	width: 100%;
 }
@@ -54,7 +54,7 @@ body{
 			<label for="password">Password</label>
 			<input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required"/>
 		</div>
-		<button type="submit" class="btn btn-primary summit">Submit</button>
+		<button type="submit" class="btn btn-primary submit">Submit</button>
 	 </form>
 	 
 	<div class="link">
