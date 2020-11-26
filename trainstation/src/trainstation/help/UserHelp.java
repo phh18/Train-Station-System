@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import trainstation.model.User;
+import trainstation.model.TrainSchedule;
 
 public class UserHelp {
 	public int registerUser(User user) throws ClassNotFoundException {
@@ -123,6 +124,68 @@ public class UserHelp {
 		            printSQLException(e);
 		        }
 		        return users;
+		
+	}
+	
+	public ArrayList<TrainSchedule>getTrainSchedule (String trainID, String origin, String destination)throws ClassNotFoundException{
+		String SELECT_SCHEDULE_SQL = "SELECT * FROM stop" + " WHERE trainId =?" + 
+	            " ORDER BY arrivalTime;";
+		ArrayList<TrainSchedule> schedule = new ArrayList<TrainSchedule>();
+		
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            // Step 2:Create a statement using connection object
+            PreparedStatement query = connection.prepareStatement(SELECT_SCHEDULE_SQL)) {
+//            System.out.println(query);
+            // Step 3: Execute the query or update query
+            System.out.println(trainID + " hihi " + origin + " hihi " + destination);
+            
+            query.setString(1, trainID);
+            System.out.println(query);
+            result = query.executeQuery();
+            System.out.println(result);
+//            if (!result.next()) {
+//            	return null;
+//            }
+            boolean startToAdd = false;
+            while (result.next()) {
+            	if (!startToAdd) {
+            		String stationID = result.getString("stationId");
+            		if (stationID.equals(origin)) startToAdd = true;	
+            	}
+            	if (startToAdd) {
+            	String train_ID = result.getString("trainId");
+            	String stationID = result.getString("stationId");
+            	
+            	String arrivalTime = result.getTime("arrivalTime").toString();
+            	String departTime = result.getTime("departTime").toString();
+//            	String arrivalTime = result.getString("arrivalTime")
+//            	String departTime = result.getString("departTime")
+            	
+            	schedule.add(new TrainSchedule(train_ID, stationID, arrivalTime, departTime));
+            	if(stationID.equals(destination)) break;
+            	}
+            }
+
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+        int indexOfOrigin = -1;
+        int indexOfdes = -2;
+        for (int i =0; i< schedule.size(); i++) {
+        	TrainSchedule t = schedule.get(i);
+        	if (t.getstationId().equals(origin)) indexOfOrigin = i;
+        	if (t.getstationId().equals(destination)) indexOfdes = i;
+        	//if(indexOfOrigin >= 0 && indexOfdes > 0) break;
+        }
+        if (indexOfdes > indexOfOrigin  && indexOfOrigin >=0)
+        	return schedule;
+        return null;
 		
 	}
 

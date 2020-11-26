@@ -1,0 +1,63 @@
+package trainstation.model;
+
+public class TrainSchedule {
+	private static final long serialVersionUID = 1L;
+    private String trainId;
+    private String stationId;
+    private double fare;
+    private String origin;
+    private String destination;
+    private String originTime;
+    private String destinationTime;
+    public TrainSchedule(double fare, String trainId, String stationId, String origin, String destination, String originTime, String destinationTime) {
+    	this.fare = fare;
+    	this.trainId = trainId;
+    	this.stationId = stationId;
+    	this.origin = origin;
+    	this.destination = destination;
+    	this.originTime = originTime;
+    	this.destinationTime = destinationTime;
+    }
+    public String gettrainId() {
+        return trainId;
+    }
+    public void settrainId(String trainId) {
+        this.trainId = trainId;
+    }
+    public String getstationId() {
+        return stationId;
+    }
+    public void setstationId(String stationId) {
+        this.stationId = stationId;
+    }
+    public String getfare() {
+        return fare;
+    }
+    public void setfare(String fare) {
+        this.fare = fare;
+    }
+    public String getorigin() {
+        return origin;
+    }
+    public void setorigin(String origin) {
+        this.origin = origin;
+    }
+    public String getdestination() {
+        return destination;
+    }
+    public void setdestination(String destination) {
+        this.destination = destination;
+    }
+    public String getoriginTime() {
+        return originTime;
+    }
+    public void setoriginTime(String originTime) {
+        this.originTime = originTime;
+    }
+    public String getdestinationTime() {
+    	return destinationTime;
+    }
+    public void setdestinationTime(String destinationTime) {
+    	this.destinationTime = destinationTime;
+    }
+}
