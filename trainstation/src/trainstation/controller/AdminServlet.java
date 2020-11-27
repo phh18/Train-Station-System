@@ -40,7 +40,7 @@ public class AdminServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		ArrayList<User> users;
 		try {
-		users = userHelp.getAllUsers();
+		users = userHelp.getAllRep();
 		request.setAttribute("users", users);
 	
 		}
@@ -62,6 +62,24 @@ public class AdminServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
+		String edit = request.getParameter("edit");
+		if(edit.equals("0")) {
+			String userName = request.getParameter("userName");
+			try {
+	            userHelp.deleteUser(userName);
+	        } catch (Exception e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+			
+			response.sendRedirect(request.getContextPath()+"/admin");
+			return;
+		}
+		if(edit.equals("2")) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/editRep.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		
 		String userName = request.getParameter("userName");
 		String firstName = request.getParameter("firstName");
@@ -69,20 +87,40 @@ public class AdminServlet extends HttpServlet {
         String password = request.getParameter("password");
         String SSN = request.getParameter("SSN");
         String email = request.getParameter("email");
-        String userRole = request.getParameter("userRole");
+        String userRole = "rep";
         
         User user = new User(userName, firstName, lastName, password, SSN, email, userRole);
         
         try {
-            userHelp.registerUser(user);
+        	if(edit.equals("3")) {
+        		userHelp.updateUser(user);
+        	}
+        	else {
+        		userHelp.registerUser(user);
+        	}
+            
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp");
-		dispatcher.forward(request, response);
+        response.sendRedirect(request.getContextPath()+"/admin");
 		return;
 	}
-
+	
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		String userName = request.getParameter("userName");
+        System.out.println(userName);
+        try {
+            userHelp.deleteUser(userName);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        response.sendRedirect(request.getContextPath()+"/admin");
+		return;
+	}
 }
