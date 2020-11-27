@@ -88,6 +88,32 @@ public class UserHelp {
         
         return user;
     }
+	
+	public void updateUser(User user) throws ClassNotFoundException {
+		String DELETE_USERS_SQL = "UPDATE users SET firstName=?, lastName=?, password=?, SSN=?, email=?, userRole=? WHERE userName = ? ;";
+	 	Class.forName("com.mysql.jdbc.Driver");
+
+	        try (Connection connection = DriverManager
+	            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+	            // Step 2:Create a statement using connection object
+	            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USERS_SQL)) {
+	            preparedStatement.setString(1, user.getFirstName());    
+	            preparedStatement.setString(2, user.getLastName());
+	            preparedStatement.setString(3, user.getPassword());
+	            preparedStatement.setString(4, user.getSSN());
+	            preparedStatement.setString(5, user.getEmail());
+	            preparedStatement.setString(6, user.getUserRole());
+	            preparedStatement.setString(7, user.getUsername());
+	            System.out.println(preparedStatement);
+	            // Step 3: Execute the query or update query
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            // process sql exception
+	            printSQLException(e);
+	        }
+	}
+	
 	public ArrayList<User> getAllUsers () throws ClassNotFoundException {
 		 String SELECT_USERS_SQL = "SELECT * FROM users";
 		 ArrayList<User> users = new ArrayList<User>();
@@ -125,6 +151,61 @@ public class UserHelp {
 		        }
 		        return users;
 		
+	}
+	
+	public ArrayList<User> getAllRep() throws ClassNotFoundException {
+		 String SELECT_USERS_SQL = "SELECT * FROM users WHERE userRole = 'rep';";
+		 ArrayList<User> users = new ArrayList<User>();
+
+		 		ResultSet result = null;
+		        Class.forName("com.mysql.jdbc.Driver");
+
+		        try (Connection connection = DriverManager
+		            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+		            // Step 2:Create a statement using connection object
+		            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USERS_SQL)) {
+		            System.out.println(preparedStatement);
+		            // Step 3: Execute the query or update query
+		            result = preparedStatement.executeQuery();
+		            while (result.next()) {
+		            	String userName = result.getString("userName");
+		            	String firstName = result.getString("firstName");
+		            	String lastName = result.getString("lastName");
+		            	String password = result.getString("password");
+		            	String SSN = result.getString("SSN");
+		            	String email = result.getString("email");
+		            	String userRole = result.getString("userRole");
+		            	
+		            	users.add(new User(userName, firstName, lastName, password, SSN, email, userRole));
+		            }
+
+		        } catch (SQLException e) {
+		            // process sql exception
+		            printSQLException(e);
+		        }
+		        return users;
+	}
+	
+	public void deleteUser(String userName) throws ClassNotFoundException {
+		 String DELETE_USERS_SQL = "DELETE FROM users WHERE userName = ?;";
+
+	 		ResultSet result = null;
+	        Class.forName("com.mysql.jdbc.Driver");
+
+	        try (Connection connection = DriverManager
+	            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+	            // Step 2:Create a statement using connection object
+	            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USERS_SQL)) {
+	        	preparedStatement.setString(1, userName);
+	            System.out.println(preparedStatement);
+	            // Step 3: Execute the query or update query
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            // process sql exception
+	            printSQLException(e);
+	        }
 	}
 	
 	public ArrayList<TrainSchedule>getTrainSchedule (String trainID, String origin, String destination)throws ClassNotFoundException{
