@@ -6,6 +6,7 @@
 <%@page import="java.sql.Connection"%>
 <%@page import= "java.util.ArrayList"%>
 <%@page import= "trainstation.model.TrainSchedule" %>
+<%@page import= "trainstation.model.TrainRoute" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,12 +20,9 @@
 <body>
 	
 	<div align="center">
-		<form action="<%= request.getContextPath() %>/schedule" method="post" class="register-form">
+		<form action="<%= request.getContextPath() %>/trainroute" method="post" class="register-form">
 		<div>${message}</div>
-			<div class="form-group" align="left">
-				<label for="trainid">TrainID</label>
-				<input type="text" id="username" name="trainID" placeholder="TrainID" class="form-control" required="required"/>
-			</div>
+			
 			<div class="form-group" align="left">
 				<label for="inputState">Origin</label>
 			      <select id="inputState" class="form-control" name="origin">
@@ -54,33 +52,89 @@
 			<button type="submit" class="btn btn-primary submit">Search</button>
 		</form>
 		
-		<% ArrayList<TrainSchedule> schedules = (ArrayList<TrainSchedule>) request.getAttribute("schedule"); %>
-		<table class="table table-hover">
+		<%ArrayList<TrainRoute> routes = (ArrayList<TrainRoute>) request.getAttribute("routes"); %>
+		<table id="myTable" class="table table-hover">
 		<thead>
 		  <tr>
 		    <th scope="col">TrainID</th>
-		    <th scope="col">StationID</th>
-		    <th scope="col">Arrival Time</th>
-		    <th scope="col">Depart Time</th>
+		    <th scope="col"><button onclick="sortTable(0)">Depart Time</button></th>
+		    <th scope="col">Origin</th>
+		    <th scope="col"><button onclick="sortTable(2)">Arrival Time</button></th>
+		    <th scope="col">Destination</th>
+		    <th scope="col"><button onclick="sortTable(4)">Total Fare</button></th>
 		  </tr>
 		</thead>
 		<tbody>
 		  <% 
-		  if (schedules !=null){
-		  for (TrainSchedule schedule: schedules){%>
+		 if (routes !=null){
+		 for (TrainRoute route: routes){%>
+		 <form action="<%= request.getContextPath() %>/schedule" method="post" class="register-form">
 		   <tr>
-		    <th scope="row"><%= schedule.gettrainId() %></th>
-		    <td><%= schedule.getstationId() %></td>
-		    <td><%= schedule.getArrivalTime() %></td>
-		    <td><%= schedule.getDepartTime() %></td>
-		    
-		  
+		    <th scope="row"><select name="trainID"><option value="<%=route.gettrainId() %>"><%=route.gettrainId() %></option></th>
+		    <td><%= route.getDepartTime() %></td>
+		    <td><select name="origin"><option value="<%=route.getOrigin()%>"><%=route.getOrigin() %></option></td>
+		    <td><%= route.getArrivalTime() %></td>
+		    <td><select name="destination"><option value="<%=route.getDestination() %>"><%=route.getDestination() %></option></td>
+		    <td><%= route.getTotalFare()%></td>
+		  	<td><button type="submit" class="btn btn-primary">See More</button></td>
 		  </tr>
+		  </form>
 		  <%}} %>
 		  
 		</tbody>
 		</table>
+	
 	</div>
+	
+	<script>
+	function sortTable(order) {
+			console.log(order + " con cac")
+			order = order - 0;
+		  var table, rows, switching, i, x, y, shouldSwitch;
+		  table = document.getElementById("myTable");
+		  switching = true;
+		  /*Make a loop that will continue until
+		  no switching has been done:*/
+		  while (switching) {
+		    //start by saying: no switching is done:
+		    switching = false;
+		    rows = table.rows;
+		    console.log(rows + " con")
+		    /*Loop through all table rows (except the
+		    first, which contains table headers):*/
+		    for (i = 1; i < (rows.length - 1); i++) {
+		      //start by saying there should be no switching:
+		      shouldSwitch = false;
+		      /*Get the two elements you want to compare,
+		      one from current row and one from the next:*/
+		      x = rows[i].getElementsByTagName("td")[order];
+		      y = rows[i + 1].getElementsByTagName("td")[order];
+		      console.log(x.innerHTML + " con");
+		      //check if the two rows should switch place:
+		    	let valueX = x.innerHTML;
+		      let valueY = y.innerHTML;
+		      
+		    	if(order == 4){
+		    		valueX -= 0;
+		    		valueY -= 0;
+		    	}
+		      if (valueX > valueY) {
+		        //if so, mark as a switch and break the loop:
+		        shouldSwitch = true;
+		        break;
+		      }
+		    }
+		    if (shouldSwitch) {
+		      /*If a switch has been marked, make the switch
+		      and mark that a switch has been done:*/
+		      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+		      switching = true;
+		    }
+		  }
+		}
+		</script>
+		      
+		
 	<form action="<%= request.getContextPath() %>/logout">
     	<button type="submit" value="Logout">Logout</button>
 	</form>

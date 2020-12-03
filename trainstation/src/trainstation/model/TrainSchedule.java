@@ -4,15 +4,16 @@ public class TrainSchedule {
 	private static final long serialVersionUID = 1L;
     private String trainId;
     private String stationId;
-//    private int fare;
+    private int fare;
     private String arrivalTime;
     private String departTime;
   
-    public TrainSchedule(String trainId, String stationId, String arrivalTime, String departTime) {
+    public TrainSchedule(String trainId, String stationId, String arrivalTime, String departTime, int fare) {
     	this.trainId = trainId;
     	this.stationId = stationId;
     	this.arrivalTime = arrivalTime;
     	this.departTime = departTime;
+    	this.fare = fare;
     }
     public String gettrainId() {
         return trainId;
@@ -38,5 +39,12 @@ public class TrainSchedule {
     }
     public void setDepartTime(String departTime) {
     	this.departTime = departTime;
+    }
+    
+    public int getFare() {
+    	return fare;
+    }
+    public void setFare(int fare) {
+    	this.fare = fare;
     }
 }

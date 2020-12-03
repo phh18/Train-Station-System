@@ -3,8 +3,9 @@
 <fullyQualifiedTypeName name="trainstation.model.User"/>
 <fullyQualifiedTypeName name="trainstation.help.UserHelp"/>
 <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
-<fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
-<fullyQualifiedTypeName name="trainstation.model.TrainSchedule"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="trainstation.model.TrainRoute"/>
+<fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
+<fullyQualifiedTypeName name="trainstation.model.TrainSchedule"/>
 </qualifiedTypeNameHistroy>

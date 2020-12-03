@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import trainstation.model.User;
 import trainstation.model.TrainSchedule;
+import trainstation.model.TrainRoute;
 
 public class UserHelp {
 	public int registerUser(User user) throws ClassNotFoundException {
@@ -208,6 +209,36 @@ public class UserHelp {
 	        }
 	}
 	
+	public int getFare(String trainID) throws ClassNotFoundException{
+		String GET_FARE = "SELECT fare from trainSchedule WHERE trainID = ?";
+		int fare = 0;
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+		 try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            // Step 2:Create a statement using connection object
+            PreparedStatement query = connection.prepareStatement(GET_FARE)) {
+//		            System.out.println(query);
+            // Step 3: Execute the query or update query
+            
+            query.setString(1, trainID);
+            System.out.println(query);
+            result = query.executeQuery();
+            System.out.println(result);
+		    
+            while(result.next()) {
+            	fare = result.getInt("fare");
+            }
+            
+	        } catch (SQLException e) {
+	            // process sql exception
+	            printSQLException(e);
+	        }
+		 return fare;
+	}
+	
 	public ArrayList<TrainSchedule>getTrainSchedule (String trainID, String origin, String destination)throws ClassNotFoundException{
 		String SELECT_SCHEDULE_SQL = "SELECT * FROM stop" + " WHERE trainId =?" + 
 	            " ORDER BY arrivalTime;";
@@ -233,6 +264,7 @@ public class UserHelp {
 //            	return null;
 //            }
             boolean startToAdd = false;
+            int count = 1;
             while (result.next()) {
             	if (!startToAdd) {
             		String stationID = result.getString("stationId");
@@ -241,13 +273,14 @@ public class UserHelp {
             	if (startToAdd) {
             	String train_ID = result.getString("trainId");
             	String stationID = result.getString("stationId");
-            	
+            	int fare = getFare(train_ID)*count;
             	String arrivalTime = result.getTime("arrivalTime").toString();
             	String departTime = result.getTime("departTime").toString();
 //            	String arrivalTime = result.getString("arrivalTime")
 //            	String departTime = result.getString("departTime")
             	
-            	schedule.add(new TrainSchedule(train_ID, stationID, arrivalTime, departTime));
+            	schedule.add(new TrainSchedule(train_ID, stationID, arrivalTime, departTime, fare));
+            	count++;
             	if(stationID.equals(destination)) break;
             	}
             }
@@ -269,6 +302,55 @@ public class UserHelp {
         return null;
 		
 	}
+	
+	public ArrayList<TrainRoute>getTrainRoute (String origin, String destination)throws ClassNotFoundException{
+		String SELECT_SCHEDULE_SQL = "select ori.trainId, ori.arrivalTime as departTime , des.arrivalTime as arrivalTime,  ori.stationId as origin, des.stationId as destination from \r\n" + 
+				"(select * from stop\r\n" + 
+				"where stationId= ?) ori\r\n" + 
+				", \r\n" + 
+				"(select * from stop\r\n" + 
+				"where stationId= ?) des\r\n" + 
+				"where ori.trainId = des.trainId\r\n" + 
+				"and ori.arrivalTime < des.arrivalTime\r\n" + 
+				";";
+		ArrayList<TrainRoute> trainRoute = new ArrayList<TrainRoute>();
+		
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            // Step 2:Create a statement using connection object
+            PreparedStatement query = connection.prepareStatement(SELECT_SCHEDULE_SQL)) {
+//            System.out.println(query);
+            // Step 3: Execute the query or update query
+            System.out.println(" hihi " + origin + " hihi " + destination);
+            
+            query.setString(1, origin);
+            query.setString(2, destination);
+            
+            System.out.println(query);
+            result = query.executeQuery();
+            System.out.println(result);
+            
+            while(result.next()) {
+            	String originShow = result.getString("origin");
+            	String destinationShow = result.getString("destination");
+            	String trainId = result.getString("trainId");
+            	String departTime = result.getString("departTime");
+            	String arrivalTime = result.getString("arrivalTime");
+            	ArrayList<TrainSchedule>temp = getTrainSchedule(trainId, originShow, destinationShow);
+            	int totalFare = temp.get(temp.size() - 1).getFare();
+            	trainRoute.add(new TrainRoute(trainId, arrivalTime, departTime, originShow, destinationShow, totalFare));
+            }
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+        
+		return trainRoute;
+	} 
 
     private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {

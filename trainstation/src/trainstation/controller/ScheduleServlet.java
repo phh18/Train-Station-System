@@ -64,13 +64,13 @@ public class ScheduleServlet extends HttpServlet{
         
         if(schedule == null) {
         	request.setAttribute("message", "No schedule found");
-        	request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
+        	request.getRequestDispatcher("/WEB-INF/view/schedule.jsp").forward(request,response);
         	return;
         }
 //        HttpSession session = request.getSession();
 //        session.setAttribute("user", user);
         request.setAttribute("schedule", schedule);
-        request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/view/schedule.jsp").forward(request,response);
 		return;
 	}
 
@@ -94,13 +94,13 @@ public class ScheduleServlet extends HttpServlet{
         
         if(schedule == null) {
         	request.setAttribute("message", "No schedule found");
-        	request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
+        	request.getRequestDispatcher("/WEB-INF/view/schedule.jsp").forward(request,response);
         	return;
         }
 //        HttpSession session = request.getSession();
 //        session.setAttribute("user", user);
         request.setAttribute("schedule", schedule);
-        request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/view/schedule.jsp").forward(request,response);
 		return;
 	}
 }
