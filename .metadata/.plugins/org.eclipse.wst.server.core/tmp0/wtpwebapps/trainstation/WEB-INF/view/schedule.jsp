@@ -20,7 +20,6 @@
 	<div>
 		<% ArrayList<TrainSchedule> schedules = (ArrayList<TrainSchedule>) request.getAttribute("schedule"); %>
 		<table class="table table-hover">
-		<caption>List of users</caption>
 		<thead>
 		  <tr>
 		    <th scope="col">TrainID</th>
@@ -47,5 +46,37 @@
 		</tbody>
 		</table>
 	</div>
+	
+	<div>
+		<form action="<%= request.getContextPath() %>/reserve" method="post">
+		<div>${message}</div>
+		
+			<div class="form-group" align="left">
+				<label for="inputState">Ticket Type</label>
+	      <select id="inputState" class="form-control" name="TicketType">
+		      <option value="normal" selected>Normal</option>
+		  		<option value="children">Children</option>
+		  		<option value="disabled">Disabled</option>
+		  		<option value="senior">Senior</option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">Trip Type</label>
+	      <select id="inputState" class="form-control" name="TripType">
+		      <option value="roundtrip" selected>Round Trip</option>
+		  		<option value="oneway">1 Way</option>
+	      </select>
+			</div>
+			
+			<div class="form-group row">
+			  <label for="example-date-input" class="col-2 col-form-label">Date</label>
+			  <input class="form-control" type="date" id="example-date-input" name="date">
+			</div>
+			
+			<button type="submit" class="btn btn-primary submit">Confirm</button>
+		</form>
+	</div>
+	
 </body>
 </html>

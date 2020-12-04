@@ -76,9 +76,10 @@
 		    <td><%= route.getArrivalTime() %></td>
 		    <td><select name="destination"><option value="<%=route.getDestination() %>"><%=route.getDestination() %></option></td>
 		    <td><%= route.getTotalFare()%></td>
-		  	<td><button type="submit" class="btn btn-primary">See More</button></td>
+		  	<td><button type="submit" class="btn btn-primary">Reserve</button></td>
+		 </form>
 		  </tr>
-		  </form>
+		  
 		  <%}} %>
 		  
 		</tbody>
@@ -88,7 +89,7 @@
 	
 	<script>
 	function sortTable(order) {
-			console.log(order + " con cac")
+			console.log(order)
 			order = order - 0;
 		  var table, rows, switching, i, x, y, shouldSwitch;
 		  table = document.getElementById("myTable");
