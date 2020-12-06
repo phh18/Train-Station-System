@@ -51,9 +51,10 @@
 		<form action="<%= request.getContextPath() %>/reserve" method="post">
 		<div>${message}</div>
 		
+		
 			<div class="form-group" align="left">
 				<label for="inputState">Ticket Type</label>
-	      <select id="inputState" class="form-control" name="TicketType">
+	      <select id="inputState" class="form-control" name="ticketType">
 		      <option value="normal" selected>Normal</option>
 		  		<option value="children">Children</option>
 		  		<option value="disabled">Disabled</option>
@@ -63,7 +64,7 @@
 			
 			<div class="form-group" align="left">
 				<label for="inputState">Trip Type</label>
-	      <select id="inputState" class="form-control" name="TripType">
+	      <select id="inputState" class="form-control" name="tripType">
 		      <option value="roundtrip" selected>Round Trip</option>
 		  		<option value="oneway">1 Way</option>
 	      </select>
@@ -72,6 +73,55 @@
 			<div class="form-group row">
 			  <label for="example-date-input" class="col-2 col-form-label">Date</label>
 			  <input class="form-control" type="date" id="example-date-input" name="date">
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">User Name</label>
+	      <select id="inputState" class="form-control" name="userName">
+		      <option value="<%= request.getAttribute("userName")%>" selected><%= request.getAttribute("userName")%></option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">TrainID</label>
+	      <select id="inputState" class="form-control" name="trainId">
+		      <option value="<%= request.getAttribute("trainId")%>" selected><%= request.getAttribute("trainId")%></option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">Origin</label>
+	      <select id="inputState" class="form-control" name="origin">
+		      <option value="<%= request.getAttribute("origin")%>" selected><%= request.getAttribute("origin")%></option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">Destination</label>
+	      <select id="inputState" class="form-control" name="destination">
+		      <option value="<%= request.getAttribute("destination")%>" selected><%= request.getAttribute("destination")%></option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">Pre-Calculated Fare</label>
+	      <select id="inputState" class="form-control" name="fare">
+		      <option value="<%= request.getAttribute("fare")%>" selected><%= request.getAttribute("fare")%></option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">Depart Time</label>
+	      <select id="inputState" class="form-control" name="departTime">
+		      <option value="<%= request.getAttribute("departTime")%>" selected><%= request.getAttribute("departTime")%></option>
+	      </select>
+			</div>
+			
+			<div class="form-group" align="left">
+				<label for="inputState">Arrival Time</label>
+	      <select id="inputState" class="form-control" name="arrivalTime">
+		      <option value="<%= request.getAttribute("arrivalTime")%>" selected><%= request.getAttribute("arrivalTime")%></option>
+	      </select>
 			</div>
 			
 			<button type="submit" class="btn btn-primary submit">Confirm</button>

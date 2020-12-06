@@ -15,8 +15,6 @@ import trainstation.help.UserHelp;
 import trainstation.model.TrainSchedule;
 import trainstation.model.User;
 
-import javax.servlet.annotation.WebServlet;
-
 @WebServlet("/schedule")
 public class ScheduleServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -79,9 +77,12 @@ public class ScheduleServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
+		
 		String trainID = request.getParameter("trainID");
         String origin = request.getParameter("origin");
         String destination = request.getParameter("destination");
+        String userName = ((User) session.getAttribute("user")).getUsername();
         
         ArrayList<TrainSchedule> schedule = new ArrayList<TrainSchedule>();
         
@@ -99,7 +100,19 @@ public class ScheduleServlet extends HttpServlet{
         }
 //        HttpSession session = request.getSession();
 //        session.setAttribute("user", user);
+        int fare = schedule.get(schedule.size() - 1).getFare();
+        String departTime = schedule.get(0).getDepartTime();
+        String arrivalTime = schedule.get(schedule.size() - 1).getArrivalTime();
+        
         request.setAttribute("schedule", schedule);
+        request.setAttribute("userName", userName);
+        request.setAttribute("trainId", trainID);
+        request.setAttribute("origin", origin);
+        request.setAttribute("destination", destination);
+        request.setAttribute("fare", fare);
+        request.setAttribute("departTime", departTime);
+        request.setAttribute("arrivalTime", arrivalTime);
+        
         request.getRequestDispatcher("/WEB-INF/view/schedule.jsp").forward(request,response);
 		return;
 	}

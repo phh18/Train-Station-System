@@ -8,4 +8,8 @@
 <fullyQualifiedTypeName name="trainstation.model.TrainRoute"/>
 <fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
 <fullyQualifiedTypeName name="trainstation.model.TrainSchedule"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="trainstation.help.ReservationHelp"/>
+<fullyQualifiedTypeName name="trainstation.model.Reservation"/>
 </qualifiedTypeNameHistroy>
