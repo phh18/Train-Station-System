@@ -12,8 +12,10 @@ public class Reservation {
     private String destinationTime;
     private int fare;
     private String ticketType;
+    private int reservationId;
     
-    public Reservation(String userName, String trainId, String origin, String destination, String tripType, String travelDate, String originTime, String destinationTime, int fare, String ticketType) {
+    public Reservation(int reservationId, String userName, String trainId, String origin, String destination, String tripType, String travelDate, String originTime, String destinationTime, int fare, String ticketType) {
+    	this.reservationId = reservationId;
     	this.userName = userName;
     	this.trainId = trainId;
     	this.origin = origin;
@@ -24,6 +26,13 @@ public class Reservation {
     	this.destinationTime = destinationTime;
     	this.fare = fare;
     	this.ticketType = ticketType;
+    }
+    
+    public int getReservationId() {
+    	return reservationId;
+    }
+    public void setReservationId(int reservationId) {
+    	this.reservationId = reservationId;
     }
     
     public String getUsername() {

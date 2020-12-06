@@ -6,10 +6,10 @@
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="trainstation.model.TrainRoute"/>
-<fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
 <fullyQualifiedTypeName name="trainstation.model.TrainSchedule"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="trainstation.help.ReservationHelp"/>
 <fullyQualifiedTypeName name="trainstation.model.Reservation"/>
+<fullyQualifiedTypeName name="trainstation.help.ReservationHelp"/>
+<fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
 </qualifiedTypeNameHistroy>

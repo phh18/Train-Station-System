@@ -54,7 +54,7 @@ public class ReservationHelp {
 	
 	public ArrayList<Reservation>getReservationHistory (String userName)throws ClassNotFoundException{
 		String SELECT_SCHEDULE_SQL = "SELECT * FROM reservation" + " WHERE userName =?" + 
-	            " ORDER BY reservationId";
+	            " ORDER BY reservationId DESC";
 		ArrayList<Reservation> rHistory = new ArrayList<Reservation>();
 		
 		ResultSet result = null;
@@ -77,7 +77,7 @@ public class ReservationHelp {
 //            	return null;
 //            }
             while (result.next()) {
-            	
+            	int reservationId = result.getInt("reservationId");
             	String train_ID = result.getString("trainId");
             	String origin = result.getString("origin");
             	String destination = result.getString("destination");
@@ -88,34 +88,42 @@ public class ReservationHelp {
             	String departTime = result.getString("originTime");
             	String ticketType = result.getString("ticketType");
             	
-            	rHistory.add(new Reservation(userName, train_ID, origin, destination, tripType, travelDate, departTime, arrivalTime, fare, ticketType));
+            	rHistory.add(new Reservation(reservationId, userName, train_ID, origin, destination, tripType, travelDate, departTime, arrivalTime, fare, ticketType));
             	
-//            	String arrivalTime = result.getString("arrivalTime")
-//            	String departTime = result.getString("departTime")
-            	
-//            	schedule.add(new TrainSchedule(train_ID, stationID, arrivalTime, departTime, fare));
-//            	count++;
-//            	if(stationID.equals(destination)) break;
-  
             }
 
         } catch (SQLException e) {
             // process sql exception
             printSQLException(e);
         }
-//        int indexOfOrigin = -1;
-//        int indexOfdes = -2;
-//        for (int i =0; i< schedule.size(); i++) {
-//        	TrainSchedule t = schedule.get(i);
-//        	if (t.getstationId().equals(origin)) indexOfOrigin = i;
-//        	if (t.getstationId().equals(destination)) indexOfdes = i;
-//        	//if(indexOfOrigin >= 0 && indexOfdes > 0) break;
-//        }
-//        if (indexOfdes > indexOfOrigin  && indexOfOrigin >=0)
-//        	return schedule;
-//        return null;
         
         return rHistory;
+	}
+	
+	public int cancelReservation(int reservationId) throws ClassNotFoundException{
+		String SELECT_SCHEDULE_SQL = "DELETE FROM reservation" + " WHERE reservationId =?;";
+		
+		int result = 0;
+		Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            // Step 2:Create a statement using connection object
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SCHEDULE_SQL)) {
+            
+        	preparedStatement.setInt(1, reservationId);
+
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            System.out.print(result);
+            result = preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+        return result;
 	}
 	
 	 private void printSQLException(SQLException ex) {

@@ -36,17 +36,6 @@ public class ScheduleServlet extends HttpServlet{
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		HttpSession session = request.getSession();
-//		if (session.getAttribute("user") != null) {
-//			request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
-//			System.out.println(((User) session.getAttribute("user")).getUsername());
-//			return;
-//		}
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/userLogin.jsp");
-//		dispatcher.forward(request, response);
-//		return;
 		String trainID = request.getParameter("trainID");
         String origin = request.getParameter("origin");
         String destination = request.getParameter("destination");

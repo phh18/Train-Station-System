@@ -70,11 +70,11 @@
 		 for (TrainRoute route: routes){%>
 		 <form action="<%= request.getContextPath() %>/schedule" method="post" class="register-form">
 		   <tr>
-		    <th scope="row"><select name="trainID"><option value="<%=route.gettrainId() %>"><%=route.gettrainId() %></option></th>
+		    <th scope="row"><select name="trainID"><option value="<%=route.gettrainId() %>"><%=route.gettrainId() %></option></select></th>
 		    <td><%= route.getDepartTime() %></td>
-		    <td><select name="origin"><option value="<%=route.getOrigin()%>"><%=route.getOrigin() %></option></td>
+		    <td><select name="origin"><option value="<%=route.getOrigin()%>"><%=route.getOrigin() %></option></select></td>
 		    <td><%= route.getArrivalTime() %></td>
-		    <td><select name="destination"><option value="<%=route.getDestination() %>"><%=route.getDestination() %></option></td>
+		    <td><select name="destination"><option value="<%=route.getDestination() %>"><%=route.getDestination() %></option></select></td>
 		    <td><%= route.getTotalFare()%></td>
 		  	<td><button type="submit" class="btn btn-primary">Reserve</button></td>
 		 </form>
@@ -84,7 +84,8 @@
 		  
 		</tbody>
 		</table>
-	
+
+		<div><button><a href="<%= request.getContextPath() %>/reserve">Reservation History</a></button></div>
 	</div>
 	
 	<script>
