@@ -21,7 +21,9 @@
 				<p><%= question.getQuestion() %></p>
 				<p>Asked by: <%= question.getCustid() %> </p>
 				<% if (question.getAnswer() == null) { %>
-					<form>
+					<form action="<%= request.getContextPath() %>/rep" method="post">
+						<input type= "hidden" name= "ans" value="0"></input>
+						<input type= "hidden" name= "qid" value= <%= question.getQid() %>></input>
 						<button>Answer</button>
 					</form>
 				<% } else { %>

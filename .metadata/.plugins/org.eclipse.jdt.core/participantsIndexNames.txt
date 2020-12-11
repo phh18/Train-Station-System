@@ -1,7 +1,0 @@
-INDEX VERSION 1.131
-F:\Train-Station-System\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2511428878.index
-\trainstation\src
-F:\Train-Station-System\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4246520204.index
-\trainstation\src
-F:\Train-Station-System\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1344134517.index
-\trainstation\src

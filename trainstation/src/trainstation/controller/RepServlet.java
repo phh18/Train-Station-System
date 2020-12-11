@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import trainstation.help.QuestionHelp;
 import trainstation.model.Question;
+import trainstation.model.User;
 
 import javax.servlet.annotation.WebServlet;
 @WebServlet("/rep")
@@ -35,7 +36,6 @@ public class RepServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ArrayList<Question> questions;
 		try {
 		questions = QuestionHelp.getQuestions();
@@ -45,11 +45,49 @@ public class RepServlet extends HttpServlet {
 		catch (Exception e) {
 			request.setAttribute("error", e);
 			e.printStackTrace();
-			
 		}
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/question.jsp");
+		dispatcher.forward(request, response);
+		return;
+	}
+	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String ans = request.getParameter("ans");
+		Integer qid = Integer.parseInt(request.getParameter("qid"));
+		
+		//Handle update answer
+		if(ans.equals("1")) {
+			String answer = request.getParameter("answer");
+			try {
+				QuestionHelp.updateAnswer(qid, answer);;
+				ArrayList<Question> questions = QuestionHelp.getQuestions();
+				request.setAttribute("questions", questions);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/question.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+		//Send answer page
+		Question question = null;
+		try {
+			question = QuestionHelp.getQuestionByQid(qid);
+			request.setAttribute("question", question);
+		}
+		catch (Exception e) {
+			request.setAttribute("error", e);
+			e.printStackTrace();
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/answer.jsp");
 		dispatcher.forward(request, response);
 		return;
 	}
