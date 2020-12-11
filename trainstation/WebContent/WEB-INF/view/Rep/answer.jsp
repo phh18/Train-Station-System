@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import= "java.util.ArrayList"%>
 <%@page import= "trainstation.model.Question" %>
 <!DOCTYPE html>
 <html>
@@ -15,22 +14,18 @@
 </head>
 <body>
 	<div>
-		<input type='text'></input>
-	</div>
-	<div>
-		<% ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute("questions"); %>
-		<% for(Question question : questions) { %>
+		<% Question question = (Question) request.getAttribute("question"); %>
 			<div>
 				<p><%= question.getQuestion() %></p>
 				<p>Asked by: <%= question.getCustid() %> </p>
-				<% if (question.getAnswer() == null) { %>
-					<p>Unanswered</p>
-				<% } else { %>
-					<p><%= question.getAnswer() %></p>
-					<p>Answered by: <%= question.getRepid() %></p>
-				<% } %>
+				<form action="<%= request.getContextPath() %>/rep" method="post">
+					<label for="answer">Answer</label>
+					<input type="hidden" name="ans" value='1' ></input>
+					<input type="hidden" name="qid" value= <%= question.getQid() %>></input>
+					<input id="answer" type="text" name="answer"></input>
+					<button>Answer</button>
+				</form>
 			</div>
-		<% } %>
 	</div>
 </body>
 </html>
