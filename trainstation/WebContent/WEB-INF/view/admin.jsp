@@ -31,7 +31,19 @@
 </head>
 <body>
 
-<div>
+<div class="container-fluid">
+<div class="row">
+<div class="col-2">
+<div class="list-group bg-danger" style="min-height: 100vh; position: fixed; width: 15vw">
+  <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action"></i>Home</a>
+  <a href="<%= request.getContextPath() %>/admin_reservations" class="bg-danger fw-bold list-group-item list-group-item-action">Reservation</a>
+  <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
+  <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Customers</a>
+  <a href="<%= request.getContextPath() %>/admin" class="bg-danger fw-bold list-group-item list-group-item-action">Employees</a>
+
+</div>
+</div>
+<div class="col-9">
 <% ArrayList<User> users = (ArrayList<User>) request.getAttribute("users"); %>
 <table class="table table-hover">
 <caption>List of users</caption>
@@ -65,13 +77,13 @@
     		<input type = "hidden" name="password" value=<%= user.getPassword() %> />
     		<input type = "hidden" name="SSN" value=<%= user.getSSN() %> />
     		<input type = "hidden" name="email" value=<%= user.getEmail() %> />
-    		<button>Edit</button>
+    		<button class="btn btn-primary">Edit</button>
     	</form>
     	
     	<form action="<%= request.getContextPath() %>/admin" method="post">
     		<input type = "hidden" name = "edit" value="0" />
     		<input type = "hidden" name = "userName" value=<%= user.getUsername() %> />
-    		<button type="submit">Delete</button>
+    		<button class="btn btn-danger" type="submit">Delete</button>
     	</form>
     </td>
   
@@ -109,6 +121,8 @@
 		</div>
 		<button type="submit" class="btn btn-primary submit">Submit</button>
 	</form>
+	</div>
+	</div>
 </div>
 
 </body>
