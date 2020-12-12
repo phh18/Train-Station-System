@@ -72,7 +72,7 @@
 			
 			<div class="form-group row">
 			  <label for="example-date-input" class="col-2 col-form-label">Date</label>
-			  <input class="form-control" type="date" id="example-date-input" name="date">
+			  <input class="form-control" type="date" id="example-date-input" name="date" required>
 			</div>
 			
 			<div class="form-group" align="left">
