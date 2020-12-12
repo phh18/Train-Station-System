@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import trainstation.model.User;
 import trainstation.help.UserHelp;
@@ -36,8 +37,24 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") != null) {
+			String role = ((User)session.getAttribute("user")).getUserRole();
+			 if(role.equals("admin")) {
+				response.sendRedirect(request.getContextPath() + "/admin");
+				return;
+			}
+			else if(role.equals("rep")) {
+				response.sendRedirect(request.getContextPath() + "/rep");
+				return;
+			}
+			request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
+			System.out.println(((User) session.getAttribute("user")).getUsername());
+			return;
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/userRegister.jsp");
 		dispatcher.forward(request, response);
@@ -48,8 +65,6 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		doGet(request, response);
 		
 		String userName = request.getParameter("userName");
 		String firstName = request.getParameter("firstName");

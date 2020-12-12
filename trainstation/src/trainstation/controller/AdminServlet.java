@@ -37,7 +37,22 @@ public class AdminServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String role = ((User)session.getAttribute("user")).getUserRole();
+		if(role.equals("customer")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		else if(role.equals("rep")) {
+			response.sendRedirect(request.getContextPath() + "/rep");
+			return;
+		}
+			 
 		ArrayList<User> users;
 		try {
 		users = userHelp.getAllRep();
@@ -60,8 +75,21 @@ public class AdminServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		doGet(request, response);
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String role = ((User)session.getAttribute("user")).getUserRole();
+		if(role.equals("customer")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		else if(role.equals("rep")) {
+			response.sendRedirect(request.getContextPath() + "/rep");
+			return;
+		}
+		
 		String edit = request.getParameter("edit");
 		if(edit.equals("0")) {
 			String userName = request.getParameter("userName");
@@ -109,8 +137,21 @@ public class AdminServlet extends HttpServlet {
 	}
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String role = ((User)session.getAttribute("user")).getUserRole();
+		if(role.equals("customer")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		else if(role.equals("rep")) {
+			response.sendRedirect(request.getContextPath() + "/rep");
+			return;
+		}
+		
 		String userName = request.getParameter("userName");
         System.out.println(userName);
         try {

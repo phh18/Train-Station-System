@@ -40,6 +40,15 @@ public class LoginServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		if (session.getAttribute("user") != null) {
+			String role = ((User)session.getAttribute("user")).getUserRole();
+			 if(role.equals("admin")) {
+				response.sendRedirect(request.getContextPath() + "/admin");
+				return;
+			}
+			else if(role.equals("rep")) {
+				response.sendRedirect(request.getContextPath() + "/rep");
+				return;
+			}
 			request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
 			System.out.println(((User) session.getAttribute("user")).getUsername());
 			return;
@@ -74,6 +83,14 @@ public class LoginServlet extends HttpServlet {
         }
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
+        if(user.getUserRole().equals("admin")) {
+			response.sendRedirect(request.getContextPath() + "/admin");
+			return;
+		}
+		else if(user.getUserRole().equals("rep")) {
+			response.sendRedirect(request.getContextPath() + "/rep");
+			return;
+		}
         request.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(request,response);
 		return;
 	}

@@ -36,6 +36,17 @@ public class RepServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String role = ((User)session.getAttribute("user")).getUserRole();
+		if(role.equals("customer")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		
 		ArrayList<Question> questions;
 		try {
 		questions = QuestionHelp.getQuestions();
@@ -57,6 +68,17 @@ public class RepServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String role = ((User)session.getAttribute("user")).getUserRole();
+		if(role.equals("customer")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		
 		String ans = request.getParameter("ans");
 		Integer qid = Integer.parseInt(request.getParameter("qid"));
 		
