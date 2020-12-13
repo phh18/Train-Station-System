@@ -14,28 +14,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-	<form action="<%= request.getContextPath() %>/question" method="get">
-		<input type='hidden' name='ask' value='1'></input>
-		<button type="submit">Ask a question</button>
+	<form action="<%= request.getContextPath() %>/question" method="post">
+		<input type="text" name="question" placeholder="Ask a question"></input>
+		<button>Ask</button>
 	</form>
-	<form action="<%= request.getContextPath() %>/question" method="get">
-		<input type='text' name='keywords'></input>
-		<button type="submit">Search</button>
-	</form>
-	<div>
-		<% ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute("questions"); %>
-		<% for(Question question : questions) { %>
-			<div id=<%= question.getQid() %>>
-				<p><%= question.getQuestion() %></p>
-				<p>Asked by: <%= question.getCustid() %> </p>
-				<% if (question.getAnswer() == null) { %>
-					<p>Unanswered</p>
-				<% } else { %>
-					<p><%= question.getAnswer() %></p>
-					<p>Answered by: <%= question.getRepid() %></p>
-				<% } %>
-			</div>
-		<% } %>
-	</div>
 </body>
 </html>
