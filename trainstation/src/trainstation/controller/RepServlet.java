@@ -48,6 +48,23 @@ public class RepServlet extends HttpServlet {
 		}
 		
 		ArrayList<Question> questions;
+		String keywords = request.getParameter("keywords");
+		//Handle keyword search
+		if(keywords != null && !keywords.equals("")) {
+			try {
+				questions = QuestionHelp.searchByKeyword((String) request.getParameter("keywords"));
+				request.setAttribute("questions", questions);
+		
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Customer/question.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
 		try {
 		questions = QuestionHelp.getQuestions();
 		request.setAttribute("questions", questions);
