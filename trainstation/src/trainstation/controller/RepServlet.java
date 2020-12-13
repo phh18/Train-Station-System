@@ -86,11 +86,12 @@ public class RepServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("user") == null) {
+		User rep = (User) session.getAttribute("user");
+		if (rep == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 		}
-		String role = ((User)session.getAttribute("user")).getUserRole();
+		String role = rep.getUserRole();
 		if(role.equals("customer")) {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
@@ -103,7 +104,7 @@ public class RepServlet extends HttpServlet {
 		if(ans.equals("1")) {
 			String answer = request.getParameter("answer");
 			try {
-				QuestionHelp.updateAnswer(qid, answer);;
+				QuestionHelp.updateAnswer(qid, answer, rep.getUsername());
 				ArrayList<Question> questions = QuestionHelp.getQuestions();
 				request.setAttribute("questions", questions);
 			}

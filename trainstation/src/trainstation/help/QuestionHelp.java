@@ -105,8 +105,8 @@ public class QuestionHelp {
 		return questions;
 	}
 	
-	public static void updateAnswer(Integer qid, String answer) throws ClassNotFoundException {
-		String SELECT_QUESTION_SQL = "UPDATE question SET answer= ? WHERE qid = ?";
+	public static void updateAnswer(Integer qid, String answer, String repid) throws ClassNotFoundException {
+		String SELECT_QUESTION_SQL = "UPDATE question SET answer= ? , repid= ? WHERE qid = ?";
 		Class.forName("com.mysql.jdbc.Driver");
 		
 		try (Connection connection = DriverManager
@@ -114,7 +114,8 @@ public class QuestionHelp {
 
 	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUESTION_SQL)) {
 				preparedStatement.setString(1, answer);
-	        	preparedStatement.setInt(2, qid);
+				preparedStatement.setString(2, repid);
+	        	preparedStatement.setInt(3, qid);
 	            System.out.println(preparedStatement);
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
