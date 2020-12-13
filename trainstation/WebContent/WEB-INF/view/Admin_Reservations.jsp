@@ -26,7 +26,7 @@
 		<div class="list-group bg-danger" style="min-height: 100vh; position: fixed; width: 15vw">
 		  <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action"></i>Home</a>
   		  <a href="<%= request.getContextPath() %>/admin_reservations" class="bg-danger fw-bold list-group-item list-group-item-action">Reservation</a>
-          <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
+          <a href="<%= request.getContextPath() %>/admin_profit" class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
           <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Customers</a>
   		  <a href="<%= request.getContextPath() %>/admin" class="bg-danger fw-bold list-group-item list-group-item-action">Employees</a>
 		

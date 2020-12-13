@@ -28,16 +28,28 @@
 		});
 	}
 </script>
+<style>
+.come-out {
+transform: translateX(-100px);
+transition: 0.5s;
+opacity: 0;
+}
+.come-in{
+transform: translateX(0px);
+transition: 0.5s;
+opacity: 1;
+}
+</style>
 </head>
 <body>
 
 <div class="container-fluid">
 <div class="row">
 <div class="col-2">
-<div class="list-group bg-danger" style="min-height: 100vh; position: fixed; width: 15vw">
+<div class="list-group bg-danger shadow-lg" style="min-height: 100vh; position: fixed; width: 15vw">
   <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action"></i>Home</a>
   <a href="<%= request.getContextPath() %>/admin_reservations" class="bg-danger fw-bold list-group-item list-group-item-action">Reservation</a>
-  <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
+  <a href="<%= request.getContextPath() %>/admin_profit"  class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
   <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Customers</a>
   <a href="<%= request.getContextPath() %>/admin" class="bg-danger fw-bold list-group-item list-group-item-action">Employees</a>
 
@@ -46,7 +58,7 @@
 <div class="col-9">
 <% ArrayList<User> users = (ArrayList<User>) request.getAttribute("users"); %>
 <table class="table table-hover">
-<caption>List of users</caption>
+<caption><h2>List of employees</h2></caption>
 <thead>
   <tr>
     <th scope="col">Username</th>
@@ -92,8 +104,8 @@
   
 </tbody>
 </table>
-
-<form action="<%= request.getContextPath() %>/admin" method="post" class="register-form">
+<button id="newEmp" class="btn btn-warning">Add New Employee</button>
+<form id="newEmpForm" action="<%= request.getContextPath() %>/admin" method="post" style="width: 500px;" class="register-form invisible come-out">
 		<input type = "hidden" name="edit" value="1" />
 		<div class="form-group" align="left">
 			<label for="username">UserName</label>
@@ -124,6 +136,13 @@
 	</div>
 	</div>
 </div>
-
+<script>
+	const btnNewEmp = document.getElementById("newEmp");
+	const formNewEmp = document.getElementById("newEmpForm");
+	btnNewEmp.addEventListener('click', function(e){
+		formNewEmp.classList.toggle('invisible');
+		formNewEmp.classList.toggle('come-in');
+	})
+</script>
 </body>
 </html>
