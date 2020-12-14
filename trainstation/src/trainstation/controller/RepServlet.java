@@ -12,7 +12,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import trainstation.help.QuestionHelp;
+import trainstation.help.StationHelp;
 import trainstation.model.Question;
+import trainstation.model.Station;
+import trainstation.model.TrainSchedule;
 import trainstation.model.User;
 
 import javax.servlet.annotation.WebServlet;
@@ -47,7 +50,30 @@ public class RepServlet extends HttpServlet {
 			return;
 		}
 		
+		String schedule = request.getParameter("schedule");
+		if(schedule != null && schedule.equals("station")) {
+			getStationSchedule(request, response);
+			return;
+		}
+		
 		ArrayList<Question> questions;
+		String keywords = request.getParameter("keywords");
+		//Handle keyword search
+		if(keywords != null && !keywords.equals("")) {
+			try {
+				questions = QuestionHelp.searchByKeyword((String) request.getParameter("keywords"));
+				request.setAttribute("questions", questions);
+		
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Customer/question.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
 		try {
 		questions = QuestionHelp.getQuestions();
 		request.setAttribute("questions", questions);
@@ -61,19 +87,45 @@ public class RepServlet extends HttpServlet {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/question.jsp");
 		dispatcher.forward(request, response);
-		return;
 	}
-	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+	protected void getStationSchedule(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Station> stations = null;
+		
+		try {
+			stations = StationHelp.getStations();
+			request.setAttribute("stations", stations);
+		}
+		catch (Exception e) {
+			request.setAttribute("error", e);
+			e.printStackTrace();
+		}
+		
+		ArrayList<TrainSchedule> schedule = null;
+		String stationId = (String) request.getParameter("stationId");
+		if(stationId != null) {
+			try {
+				schedule = StationHelp.getTrainSchedulebyStation(stationId);
+				request.setAttribute("schedule", schedule);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/stationSchedule.jsp");
+		dispatcher.forward(request, response);
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("user") == null) {
+		User rep = (User) session.getAttribute("user");
+		if (rep == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 		}
-		String role = ((User)session.getAttribute("user")).getUserRole();
+		String role = rep.getUserRole();
 		if(role.equals("customer")) {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
@@ -86,7 +138,7 @@ public class RepServlet extends HttpServlet {
 		if(ans.equals("1")) {
 			String answer = request.getParameter("answer");
 			try {
-				QuestionHelp.updateAnswer(qid, answer);;
+				QuestionHelp.updateAnswer(qid, answer, rep.getUsername());
 				ArrayList<Question> questions = QuestionHelp.getQuestions();
 				request.setAttribute("questions", questions);
 			}

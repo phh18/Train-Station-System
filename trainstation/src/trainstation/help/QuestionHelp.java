@@ -105,8 +105,26 @@ public class QuestionHelp {
 		return questions;
 	}
 	
-	public static void updateAnswer(Integer qid, String answer) throws ClassNotFoundException {
-		String SELECT_QUESTION_SQL = "UPDATE question SET answer= ? WHERE qid = ?";
+	public static void postQuestion(String question, String custid) throws ClassNotFoundException {
+		String SELECT_QUESTION_SQL = "INSERT INTO question (custid, question) VALUE ( ? , ? );";
+		Class.forName("com.mysql.jdbc.Driver");
+		
+		try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUESTION_SQL)) {
+			preparedStatement.setString(1, custid);
+			preparedStatement.setString(2, question);
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+	}
+	
+	public static void updateAnswer(Integer qid, String answer, String repid) throws ClassNotFoundException {
+		String SELECT_QUESTION_SQL = "UPDATE question SET answer= ? , repid= ? WHERE qid = ?";
 		Class.forName("com.mysql.jdbc.Driver");
 		
 		try (Connection connection = DriverManager
@@ -114,7 +132,8 @@ public class QuestionHelp {
 
 	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUESTION_SQL)) {
 				preparedStatement.setString(1, answer);
-	        	preparedStatement.setInt(2, qid);
+				preparedStatement.setString(2, repid);
+	        	preparedStatement.setInt(3, qid);
 	            System.out.println(preparedStatement);
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
