@@ -12,7 +12,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import trainstation.help.QuestionHelp;
+import trainstation.help.StationHelp;
 import trainstation.model.Question;
+import trainstation.model.Station;
+import trainstation.model.TrainSchedule;
 import trainstation.model.User;
 
 import javax.servlet.annotation.WebServlet;
@@ -47,6 +50,12 @@ public class RepServlet extends HttpServlet {
 			return;
 		}
 		
+		String schedule = request.getParameter("schedule");
+		if(schedule != null && schedule.equals("station")) {
+			getStationSchedule(request, response);
+			return;
+		}
+		
 		ArrayList<Question> questions;
 		String keywords = request.getParameter("keywords");
 		//Handle keyword search
@@ -78,12 +87,37 @@ public class RepServlet extends HttpServlet {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/question.jsp");
 		dispatcher.forward(request, response);
-		return;
 	}
-	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+	protected void getStationSchedule(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Station> stations = null;
+		
+		try {
+			stations = StationHelp.getStations();
+			request.setAttribute("stations", stations);
+		}
+		catch (Exception e) {
+			request.setAttribute("error", e);
+			e.printStackTrace();
+		}
+		
+		ArrayList<TrainSchedule> schedule = null;
+		String stationId = (String) request.getParameter("stationId");
+		if(stationId != null) {
+			try {
+				schedule = StationHelp.getTrainSchedulebyStation(stationId);
+				request.setAttribute("schedule", schedule);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/stationSchedule.jsp");
+		dispatcher.forward(request, response);
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User rep = (User) session.getAttribute("user");
