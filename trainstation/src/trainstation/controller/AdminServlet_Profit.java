@@ -44,13 +44,16 @@ public class AdminServlet_Profit extends HttpServlet {
 		ArrayList<Profit> profitByUsername = null;
 		ArrayList<Profit> profitByTransitLine = null;
 		ArrayList<Profit> mostActivelines = null;
+		ArrayList<Profit> salesPerMonth = null;
 		try {
 		profitByUsername = profitHelp.getProfitUsername();
 		profitByTransitLine = profitHelp.getProfitByTransitLine();
 		mostActivelines = profitHelp.getMostActiveLines();
+		salesPerMonth = profitHelp.getSalesReportPerMonth();
 		request.setAttribute("profitByUsername", profitByUsername);
 		request.setAttribute("profitByTransitLine", profitByTransitLine);
 		request.setAttribute("mostActivelines", mostActivelines);
+		request.setAttribute("salesPerMonth", salesPerMonth);
 		
 	
 		}

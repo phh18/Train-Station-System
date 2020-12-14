@@ -52,7 +52,9 @@ opacity: 1;
   <a href="<%= request.getContextPath() %>/admin_profit"  class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
   <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Customers</a>
   <a href="<%= request.getContextPath() %>/admin" class="bg-danger fw-bold list-group-item list-group-item-action">Employees</a>
-
+  <form action="<%= request.getContextPath() %>/logout">
+    	<button type="submit" value="Logout">Logout</button>
+  </form>
 </div>
 </div>
 <div class="col-9">

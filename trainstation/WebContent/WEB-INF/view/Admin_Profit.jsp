@@ -17,6 +17,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <style>
 .come-out {
 transform: translateX(-100px);
@@ -45,8 +46,7 @@ opacity: 1;
 </div>
 </div>
 <div class="col-9">
-
-
+<canvas id="myChart"></canvas>
 <% ArrayList<Profit> profitByUsername  = (ArrayList<Profit>) request.getAttribute("profitByUsername"); %>
 <% ArrayList<Profit> profitByTransitLine = (ArrayList<Profit>) request.getAttribute("profitByTransitLine"); %>
 <% ArrayList<Profit> mostActiveLines = (ArrayList<Profit>) request.getAttribute("mostActivelines"); %>
@@ -150,6 +150,51 @@ opacity: 1;
 </div>
 </div>
 </div>
+<script>
+let labels = [];
+let data = [];
+<% ArrayList<Profit> salesPerMonth  = (ArrayList<Profit>) request.getAttribute("salesPerMonth"); %>
+<% 
+if (salesPerMonth!=null){
+for (Profit pro: salesPerMonth){%>
+  labels.push('<%= pro.getTitle()%>');
+  data.push(<%= pro.getProfit()%>);
+<%}} %>
+
+let ctx = document.getElementById('myChart').getContext('2d');
+let chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+   
+
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Profit Per Month',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data
+        }]
+    },
+ 
+    // Configuration options go here
+     options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, values) {
+                        return '$' + value;
+                    }
+                }
+           
+            }]
+        }
+    }
+});
+
+</script>
 
 </body>
 </html>

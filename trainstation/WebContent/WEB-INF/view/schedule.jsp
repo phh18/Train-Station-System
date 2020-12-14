@@ -19,7 +19,7 @@
 <body>
 	<div>
 		<% ArrayList<TrainSchedule> schedules = (ArrayList<TrainSchedule>) request.getAttribute("schedule"); %>
-		<table class="table table-hover">
+		<table style="width: 50%; margin: 50px 200px; class="table table-hover">
 		<thead>
 		  <tr>
 		    <th scope="col">TrainID</th>
@@ -48,7 +48,8 @@
 	</div>
 	
 	<div>
-		<form action="<%= request.getContextPath() %>/reserve" method="post">
+		<h2 style="width: 50%; margin: 50px 200px;">Reservation Confirmation: </h2>
+		<form style="width: 50%; margin: 50px 200px;" action="<%= request.getContextPath() %>/reserve" method="post">
 		<div>${message}</div>
 		
 		

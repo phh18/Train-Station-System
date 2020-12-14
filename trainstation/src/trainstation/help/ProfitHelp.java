@@ -99,6 +99,35 @@ public class ProfitHelp {
 		
 		return profits;
 	}
+	public static ArrayList<Profit> getSalesReportPerMonth() throws ClassNotFoundException {
+		ArrayList<Profit> profits = new ArrayList<>();
+		String SELECT_QUESTION_SQL = "select SUBSTRING(travelDate, 1, 7) as myMonth, sum(fare) as profit from reservation\r\n"
+				+ "group by myMonth\r\n"
+				+ "order by myMonth;";
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUESTION_SQL)) {
+            System.out.println(preparedStatement);
+            
+            result = preparedStatement.executeQuery();
+            while (result.next()) {
+            	Integer profit = result.getInt("profit");
+            	String month = result.getString("myMonth");
+            	profits.add(new Profit(month, profit));
+            	}
+
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+		
+		
+		return profits;
+	}
 	
 	
 	private static void printSQLException(SQLException ex) {
