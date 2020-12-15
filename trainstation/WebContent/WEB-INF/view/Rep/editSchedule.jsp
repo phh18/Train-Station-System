@@ -3,6 +3,7 @@
 <%@page import= "java.util.ArrayList"%>
 <%@page import= "trainstation.model.Station" %>
 <%@page import= "trainstation.model.TrainSchedule" %>
+<%@page import= "trainstation.model.TrainRoute" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +30,39 @@
 			<button>Search</button>
 		</form>
 	</div>
+	<% TrainRoute scheduleInfo = (TrainRoute) request.getAttribute("scheduleInfo"); %>
+	<table class="table table-hover">
+		<thead>
+		  <tr>
+		    <th scope="col">TrainID</th>
+		    <th scope="col">Fare</th>
+		    <th scope="col">Line Name</th>
+		    <th scope="col">Origin</th>
+		    <th scope="col">Destination</th>
+		    <th scope="col">Origin Time</th>
+		    <th scope="col">Destination Time</th>
+		  </tr>
+		</thead>
+		<tbody>
+			<% if(scheduleInfo != null) { %>
+			<form action="<%= request.getContextPath() %>/rep" method="post">
+				<input type="hidden" name="schedule" value="edit" ></input>
+				<input type="hidden" name="action" value="info" ></input>
+			  <input type="hidden" name="trainId" value= <%= scheduleInfo.gettrainId() %> ></input>
+			  <th scope="row"><%= scheduleInfo.gettrainId() %></th>
+			  <td> <input type="number" name="fare" value= <%= scheduleInfo.getTotalFare() %> required></input></td>
+			  <td> <input type="text" name="lineName" value= "<%= scheduleInfo.getLineName() %>" required></input></td>
+			  <td> <input type="text" name="origin" value= <%= scheduleInfo.getOrigin() %> required></input></td>
+			  <td> <input type="text" name="destination" value= <%= scheduleInfo.getDestination() %> required></input></td>
+			  <td> <input type="time" name="originTime" value= <%= scheduleInfo.getArrivalTime() %> required></input> </td>
+			  <td> <input type="time" name="destinationTime" value= <%= scheduleInfo.getDepartTime() %> required></input> </td>
+			  <td> <button>Edit</button> </td>
+			</form>
+			<% } %>
+		</tbody>
+	</table>
+	
+	
 	<% ArrayList<TrainSchedule> schedule = (ArrayList<TrainSchedule>) request.getAttribute("schedule"); %>
 	<% if(schedule == null) schedule = new ArrayList<TrainSchedule>(); %>
 	<table class="table table-hover">
@@ -43,7 +77,7 @@
 		<tbody>
 		  <% for (TrainSchedule train: schedule){%>
 				<tr>
-			  <form>
+			  <form action="<%= request.getContextPath() %>/rep" method="post">
 			  	<input type="hidden" name="schedule" value="edit" ></input>
 			  	<input type="hidden" name="trainId" value= <%= train.gettrainId() %> ></input>
 			  	<input type="hidden" name="oldStationId" value= <%= train.getstationId() %> ></input>
@@ -54,20 +88,20 @@
 			    <td> <input type="time" id="departTime" name="departTime" value= <%= train.getDepartTime() %> required></input> </td>
 			    <td><button>Edit</button></td>
 		  	</form>
-		  	<form>
+		  	<form action="<%= request.getContextPath() %>/rep" method="post">
 		  		<input type="hidden" name="schedule" value="edit" ></input>
 		  		<input type="hidden" name="action" value="delete" ></input>
 		  		<input type="hidden" name="trainId" value= <%= train.gettrainId() %> ></input>
 			  	<input type="hidden" name="oldStationId" value= <%= train.getstationId() %> ></input>
 			  	<input type="hidden" name="oldArrivalTime" value= <%= train.getArrivalTime() %> ></input>
 		  		<td><button>Delete</button></td>
-		  	</form>
+		  	</form action="<%= request.getContextPath() %>/rep" method="post">
 				</tr>
 		  <%} %>
 		  <% if (schedule.size() > 0) { %>
 		  	<% TrainSchedule train = schedule.get(0); %>
 			  <tr>
-				  <form>
+				  <form action="<%= request.getContextPath() %>/rep" method="post">
 				  	<input type="hidden" name="schedule" value="edit" ></input>
 				  	<input type="hidden" name="action" value="add" ></input>
 				  	<input type="hidden" name="trainId" value= <%= train.gettrainId()  %> ></input>

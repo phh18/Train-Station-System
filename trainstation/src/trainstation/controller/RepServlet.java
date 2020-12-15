@@ -16,6 +16,7 @@ import trainstation.help.StationHelp;
 import trainstation.help.UserHelp;
 import trainstation.model.Question;
 import trainstation.model.Station;
+import trainstation.model.TrainRoute;
 import trainstation.model.TrainSchedule;
 import trainstation.model.User;
 
@@ -108,9 +109,11 @@ public class RepServlet extends HttpServlet {
 		}
 		
 		ArrayList<TrainSchedule> schedule = null;
+		
 		String stationId = (String) request.getParameter("stationId");
 		if(stationId != null) {
 			try {
+				
 				schedule = StationHelp.getTrainSchedulebyStation(stationId);
 				request.setAttribute("schedule", schedule);
 			}
@@ -134,13 +137,15 @@ public class RepServlet extends HttpServlet {
 			request.setAttribute("error", e);
 			e.printStackTrace();
 		}
-		
+		TrainRoute scheduleInfo = null;
 		ArrayList<TrainSchedule> schedule = null;
 		String trainId = (String) request.getParameter("trainId");
 		if(trainId != null) {
 			try {
+				scheduleInfo = StationHelp.getSchedule(trainId);
 				schedule = StationHelp.getTrainSchedulebyId(trainId);
 				request.setAttribute("schedule", schedule);
+				request.setAttribute("scheduleInfo", scheduleInfo);
 			}
 			catch (Exception e) {
 				request.setAttribute("error", e);
@@ -207,30 +212,49 @@ public class RepServlet extends HttpServlet {
 	}
 	
 	protected void handleEditStop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<String> trains = null;
-		try {
-			trains = StationHelp.getTrains();
-			request.setAttribute("trains", trains);
-		}
-		catch (Exception e) {
-			request.setAttribute("error", e);
-			e.printStackTrace();
-		}
+		String action = request.getParameter("action");
+		String trainId = request.getParameter("trainId");
+		String oldStationId = request.getParameter("oldStationId");
+		String newStationId = request.getParameter("newStationId");
+		String oldArrivalTime = request.getParameter("oldArrivalTime");
+		String newArrivalTime = request.getParameter("newArrivalTime");
+		String departTime = request.getParameter("departTime");
+		int fare = Integer.parseInt(request.getParameter("fare"));
+		String lineName = request.getParameter("lineName");
+		String origin = request.getParameter("origin");
+		String destination = request.getParameter("destination");
+		String originTime = request.getParameter("originTime");
+		String destinationTime = request.getParameter("destinationTime");
 		
-		ArrayList<TrainSchedule> schedule = null;
-		String trainId = (String) request.getParameter("trainId");
-		if(trainId != null) {
+		if(action == null) action = "edit";
+		
+		if(action.equals("edit") || action.equals("delete")) {
 			try {
-				schedule = StationHelp.getTrainSchedulebyId(trainId);
-				request.setAttribute("schedule", schedule);
+				StationHelp.deleteStop(trainId, oldStationId, oldArrivalTime);
 			}
 			catch (Exception e) {
 				request.setAttribute("error", e);
 				e.printStackTrace();
 			}
 		}
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/editSchedule.jsp");
-		dispatcher.forward(request, response);
+		if(action.equals("edit") || action.equals("add")) {
+			try {
+				StationHelp.addStop(trainId, newStationId, newArrivalTime, departTime);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		if(action.equals("info")) {
+			try {
+				StationHelp.updateInfo(trainId, fare, lineName, origin, destination, originTime, destinationTime);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		doGet(request, response);
 	}
 }
