@@ -8,8 +8,15 @@ public class TrainRoute {
     private String arrivalTime;
     private String departTime;
     private String origin, destination;
+    private String lineName;
   
-    public TrainRoute(String trainId, String arrivalTime, String departTime, String origin, String destination, int totalFare) {
+    public String getLineName() {
+		return lineName;
+	}
+	public void setLineName(String lineName) {
+		this.lineName = lineName;
+	}
+	public TrainRoute(String trainId, String arrivalTime, String departTime, String origin, String destination, int totalFare) {
     	this.trainId = trainId;
     	this.arrivalTime = arrivalTime;
     	this.departTime = departTime;
