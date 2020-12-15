@@ -24,7 +24,7 @@
 	<div class="row">
 		<div class="col-2">
 		<div class="list-group bg-danger" style="min-height: 100vh; position: fixed; width: 15vw">
-		  <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action"></i>Home</a>
+		  <a href="<%= request.getContextPath() %>/admin" class="bg-danger fw-bold list-group-item list-group-item-action"></i>Home</a>
   		  <a href="<%= request.getContextPath() %>/admin_reservations" class="bg-danger fw-bold list-group-item list-group-item-action">Reservation</a>
           <a href="<%= request.getContextPath() %>/admin_profit" class="bg-danger fw-bold list-group-item list-group-item-action">Profits</a>
           <a href="#" class="bg-danger fw-bold list-group-item list-group-item-action">Customers</a>
@@ -37,11 +37,11 @@
 		<form class="d-flex justify-content-around align-items-center" style="width: 50%" action="<%= request.getContextPath() %>/admin_reservations" method="post">
 		<label>Search by Transit Line</label>
 		<select name="transitLine" class="form-select" aria-label="Default select example">
-		  <option value="AK47">AK47</option>
-		  <option value="ECE1">ECE1</option>
-		  <option value="FB12">FB12</option>
-		  <option value="GG14">GG14</option>
-		  <option value="M1A1">M1A1</option>
+		  <option value="Main-Bergen County">Main-Bergen County</option>
+		  <option value="Montclair-Boonton">Montclair-Boonton</option>
+		  <option value="Northeast Corridor">Northeast Corridor</option>
+		  <option value="Atlantic City">Atlantic City</option>
+		  <option value="New Brunswick-Paters">New Brunswick-Paters</option>
 		</select>
 		<button type="submit" class="btn btn-primary">Search</button>
 		</form>
@@ -59,7 +59,7 @@
 		<thead>
 		  <tr>
 		    <th scope="col">ReservationId</th>
-		    <th scope="col">TrainId</th>
+		    <th scope="col">Transit Line</th>
 		    <th scope="col">Origin</th>
 		    <th scope="col">Destination</th>
 		    <th scope="col">Trip Type</th>

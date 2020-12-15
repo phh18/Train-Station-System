@@ -13,8 +13,8 @@ import trainstation.model.*;
 public class ProfitHelp {
 	public static ArrayList<Profit> getProfitByTransitLine() throws ClassNotFoundException {
 		ArrayList<Profit> profits = new ArrayList<>();
-		String SELECT_QUESTION_SQL = "select trainId, sum(fare) as profit from reservation\r\n"
-				+ "group by trainId\r\n"
+		String SELECT_QUESTION_SQL = "select lineName, sum(fare) as profit from reservation\r\n"
+				+ "group by lineName\r\n"
 				+ "order by profit desc;";
 		ResultSet result = null;
         Class.forName("com.mysql.jdbc.Driver");
@@ -28,7 +28,7 @@ public class ProfitHelp {
             result = preparedStatement.executeQuery();
             while (result.next()) {
             	Integer profit = result.getInt("profit");
-            	String trainId = result.getString("trainId");
+            	String trainId = result.getString("lineName");
             	profits.add(new Profit(trainId, profit));
             	}
 
@@ -71,9 +71,9 @@ public class ProfitHelp {
 	}
 	public static ArrayList<Profit> getMostActiveLines() throws ClassNotFoundException {
 		ArrayList<Profit> profits = new ArrayList<>();
-		String SELECT_QUESTION_SQL = "select trainId, count(*) as reservations\r\n"
+		String SELECT_QUESTION_SQL = "select lineName, count(*) as reservations\r\n"
 				+ "from reservation\r\n"
-				+ "group by trainId\r\n"
+				+ "group by lineName\r\n"
 				+ "order by reservations desc;";
 		ResultSet result = null;
         Class.forName("com.mysql.jdbc.Driver");
@@ -87,7 +87,7 @@ public class ProfitHelp {
             result = preparedStatement.executeQuery();
             while (result.next()) {
             	Integer profit = result.getInt("reservations");
-            	String trainId = result.getString("trainId");
+            	String trainId = result.getString("lineName");
             	profits.add(new Profit(trainId, profit));
             	}
 

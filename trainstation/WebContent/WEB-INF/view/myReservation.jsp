@@ -5,6 +5,8 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import= "java.util.ArrayList"%>
+<%@page import= "java.util.Date"%>
+<%@page import= "java.text.SimpleDateFormat"%>
 <%@page import= "trainstation.model.Reservation" %>
 <!DOCTYPE html>
 <html>
@@ -39,6 +41,11 @@
 		</thead>
 		<tbody>
 		  <% 
+		  SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+		  Date date = new Date(System.currentTimeMillis());
+		  String now = formatter.format(date);
+		  System.out.println(now);
+		  
 		  if (myReservation !=null){
 		  for (Reservation myRes: myReservation){%>
 		  <form action="<%= request.getContextPath() %>/reserve" method="post" class="register-form">
@@ -53,7 +60,12 @@
 		  	<td><%= myRes.getDestinationTime() %></td>
 		  	<td><%= myRes.getFare() %></td>
 		  	<td><%= myRes.getTicketType() %></td>
+		  	<%if (myRes.getTravelDate().compareTo(now)>=0){%>
 		  	<td><button type="submit" class="btn btn-danger">Cancel Reservation</button></td>
+		  	<%} else{ %>
+		  	<td><button type="button" disabled class="btn btn-warning">Past Reservation</button></td>
+		  	<%} %>
+		  	
 		  </form>
 		  </tr>
 		  <%}} %>

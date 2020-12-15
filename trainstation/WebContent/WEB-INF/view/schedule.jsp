@@ -73,7 +73,7 @@
 			
 			<div class="form-group row">
 			  <label for="example-date-input" class="col-2 col-form-label">Date</label>
-			  <input class="form-control" type="date" id="example-date-input" name="date" required>
+			  <input class="form-control" type="date" id="date-input" name="date" required>
 			</div>
 			
 			<div class="form-group" align="left">
@@ -128,6 +128,16 @@
 			<button type="submit" class="btn btn-primary submit">Confirm</button>
 		</form>
 	</div>
+	<script>
+	const inputDate = document.getElementById("date-input");
+	let currentDay = new Date();
+	let date = currentDay.getDate();
+	let month = currentDay.getMonth() + 1;
+	let year = currentDay.getFullYear();
+	console.log(year, month, date)
+	inputDate.min = year + '-' + month + '-' + date;
+	console.log(inputDate)
+	</script>
 	
 </body>
 </html>

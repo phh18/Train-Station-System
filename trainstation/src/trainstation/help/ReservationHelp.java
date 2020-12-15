@@ -54,7 +54,7 @@ public class ReservationHelp {
 	
 	public ArrayList<Reservation>getReservationHistory (String userName)throws ClassNotFoundException{
 		String SELECT_SCHEDULE_SQL = "SELECT * FROM reservation" + " WHERE userName =?" + 
-	            " ORDER BY reservationId DESC";
+	            " ORDER BY travelDate DESC";
 		ArrayList<Reservation> rHistory = new ArrayList<Reservation>();
 		
 		ResultSet result = null;
@@ -100,7 +100,7 @@ public class ReservationHelp {
         return rHistory;
 	}
 	public ArrayList<Reservation>getReservationByTransitLine(String line) throws ClassNotFoundException{
-		String SELECT_SCHEDULE_SQL = "SELECT * FROM reservation WHERE trainId=?";
+		String SELECT_SCHEDULE_SQL = "SELECT * FROM reservation WHERE lineName=?";
 		
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		
@@ -124,7 +124,7 @@ public class ReservationHelp {
 //            }
             while (result.next()) {
             	int reservationId = result.getInt("reservationId");
-            	String train_ID = result.getString("trainId");
+            	String train_ID = result.getString("lineName");
             	String origin = result.getString("origin");
             	String destination = result.getString("destination");
             	String tripType = result.getString("tripType");
