@@ -37,6 +37,28 @@ public class StationHelp {
 		return stations;
 	}
 	
+	public static ArrayList<String> getTrains() throws ClassNotFoundException {
+		ArrayList<String> trains = new ArrayList<>();
+		String SELECT_STATION_SQL = "SELECT trainId FROM train;";
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STATION_SQL)) {
+            System.out.println(preparedStatement);
+            result = preparedStatement.executeQuery();
+            while (result.next()) {
+            	trains.add(result.getString("trainId"));
+            }
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+		return trains;
+	}
+	
 	public static ArrayList<TrainSchedule> getTrainSchedulebyStation(String stationId) throws ClassNotFoundException {
 		ArrayList<TrainSchedule> schedule = new ArrayList<>();
 		String SELECT_STOPS_SQL = "SELECT * FROM stop WHERE stationId= ? ORDER BY arrivalTime";
@@ -57,6 +79,34 @@ public class StationHelp {
             	String departTime = result.getString("departTime");
             	
             	schedule.add(new TrainSchedule(trainId, stationId, arrivalTime, departTime, 0));
+            }
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+		return schedule;
+	}
+	
+	public static ArrayList<TrainSchedule> getTrainSchedulebyId(String trainId) throws ClassNotFoundException {
+		ArrayList<TrainSchedule> schedule = new ArrayList<>();
+		String SELECT_STOPS_SQL = "SELECT * FROM stop WHERE trainId= ? ORDER BY arrivalTime";
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STOPS_SQL)) {
+            System.out.println(preparedStatement);
+            preparedStatement.setString(1, trainId);
+            result = preparedStatement.executeQuery();
+            
+            while (result.next()) {
+            	String stationId = result.getString("stationId");
+            	String arrivalTime = result.getString("arrivalTime");
+            	String departTime = result.getString("departTime");
+            	
+				schedule.add(new TrainSchedule(trainId, stationId, arrivalTime, departTime, 0));
             }
         } catch (SQLException e) {
             // process sql exception

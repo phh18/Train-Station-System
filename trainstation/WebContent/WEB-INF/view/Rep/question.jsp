@@ -15,6 +15,7 @@
 </head>
 <body>
 	<a href= "<%= request.getContextPath() %>/rep?schedule=station">Station Schedule</a>
+	<a href= "<%= request.getContextPath() %>/rep?schedule=edit">Edit Schedule</a>
 	<form action="<%= request.getContextPath() %>/rep" method="get">
 		<input type='text' name='keywords'></input>
 		<button type="submit">Search</button>

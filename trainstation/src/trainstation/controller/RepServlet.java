@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import trainstation.help.QuestionHelp;
 import trainstation.help.StationHelp;
+import trainstation.help.UserHelp;
 import trainstation.model.Question;
 import trainstation.model.Station;
 import trainstation.model.TrainSchedule;
@@ -51,8 +52,13 @@ public class RepServlet extends HttpServlet {
 		}
 		
 		String schedule = request.getParameter("schedule");
-		if(schedule != null && schedule.equals("station")) {
+		if(schedule == null);
+		else if(schedule.equals("station")) {
 			getStationSchedule(request, response);
+			return;
+		}
+		else if(schedule.equals("edit")) {
+			getTrainSchedule(request, response);
 			return;
 		}
 		
@@ -117,6 +123,34 @@ public class RepServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/stationSchedule.jsp");
 		dispatcher.forward(request, response);
 	}
+	
+	protected void getTrainSchedule(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<String> trains = null;
+		try {
+			trains = StationHelp.getTrains();
+			request.setAttribute("trains", trains);
+		}
+		catch (Exception e) {
+			request.setAttribute("error", e);
+			e.printStackTrace();
+		}
+		
+		ArrayList<TrainSchedule> schedule = null;
+		String trainId = (String) request.getParameter("trainId");
+		if(trainId != null) {
+			try {
+				schedule = StationHelp.getTrainSchedulebyId(trainId);
+				request.setAttribute("schedule", schedule);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/editSchedule.jsp");
+		dispatcher.forward(request, response);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -128,6 +162,12 @@ public class RepServlet extends HttpServlet {
 		String role = rep.getUserRole();
 		if(role.equals("customer")) {
 			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		
+		String schedule = request.getParameter("schedule");
+		if(schedule.equals("edit")) {
+			handleEditStop(request, response);
 			return;
 		}
 		
@@ -164,5 +204,33 @@ public class RepServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/answer.jsp");
 		dispatcher.forward(request, response);
 		return;
+	}
+	
+	protected void handleEditStop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<String> trains = null;
+		try {
+			trains = StationHelp.getTrains();
+			request.setAttribute("trains", trains);
+		}
+		catch (Exception e) {
+			request.setAttribute("error", e);
+			e.printStackTrace();
+		}
+		
+		ArrayList<TrainSchedule> schedule = null;
+		String trainId = (String) request.getParameter("trainId");
+		if(trainId != null) {
+			try {
+				schedule = StationHelp.getTrainSchedulebyId(trainId);
+				request.setAttribute("schedule", schedule);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/editSchedule.jsp");
+		dispatcher.forward(request, response);
 	}
 }
