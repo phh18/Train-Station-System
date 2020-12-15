@@ -44,7 +44,7 @@ create table stop (
     stationId varchar(10),
     arrivalTime DATE,
     departTime DATE,
-    primary key (trainId, stationId),
+    primary key (trainId, stationId, arrivalTime),
     foreign key (trainId) references train(trainId),
     foreign key (stationId) references station(stationId)
 
@@ -66,6 +66,18 @@ create table reservation (
     foreign key (destination) references station (stationId),
     foreign key (userName) references users(userName)
 );
+
+CREATE TABLE `question` (
+  `qid` int NOT NULL AUTO_INCREMENT,
+  `custid` varchar(20) DEFAULT NULL,
+  `question` text,
+  `answer` text,
+  `repid` varchar(20) DEFAULT (NULL),
+  PRIMARY KEY (`qid`),
+  FULLTEXT KEY `question` (`question`),
+  FOREIGN KEY (`custid`) REFERENCES `users` (`userName`),
+  FOREIGN KEY (`repid`) REFERENCES `users` (`userName`)
+)
 
 select * from users;
 insert into users (userName, firstName, lastName, password, SSN)
