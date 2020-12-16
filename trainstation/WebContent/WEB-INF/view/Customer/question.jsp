@@ -22,11 +22,11 @@
 		<input type='text' name='keywords'></input>
 		<button type="submit">Search</button>
 	</form>
-	<div>
+	<div class="col-md-12">
 		<% ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute("questions"); %>
 		<% for(Question question : questions) { %>
 			<div id=<%= question.getQid() %>>
-				<p><%= question.getQuestion() %></p>
+				<h5><%= question.getQuestion() %></h5>
 				<p>Asked by: <%= question.getCustid() %> </p>
 				<% if (question.getAnswer() == null) { %>
 					<p>Unanswered</p>
@@ -35,6 +35,7 @@
 					<p>Answered by: <%= question.getRepid() %></p>
 				<% } %>
 			</div>
+			<hr>
 		<% } %>
 	</div>
 </body>
