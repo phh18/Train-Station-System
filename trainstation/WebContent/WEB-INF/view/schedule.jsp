@@ -55,8 +55,8 @@
 		
 			<div class="form-group" align="left">
 				<label for="inputState">Ticket Type</label>
-	      <select id="inputState" class="form-control" name="ticketType">
-		      <option value="normal" selected>Normal</option>
+	     	 <select id="ticketType" class="form-control" name="ticketType">
+		      	<option value="normal" selected>Normal</option>
 		  		<option value="children">Children</option>
 		  		<option value="disabled">Disabled</option>
 		  		<option value="senior">Senior</option>
@@ -65,7 +65,7 @@
 			
 			<div class="form-group" align="left">
 				<label for="inputState">Trip Type</label>
-	      <select id="inputState" class="form-control" name="tripType">
+	      <select id="roundTrip" class="form-control" name="tripType">
 		      <option value="roundtrip" selected>Round Trip</option>
 		  		<option value="oneway">1 Way</option>
 	      </select>
@@ -124,7 +124,7 @@
 		      <option value="<%= request.getAttribute("arrivalTime")%>" selected><%= request.getAttribute("arrivalTime")%></option>
 	      </select>
 			</div>
-			
+			<h3>Total Fare:<p id ="totalFare">$<%=request.getAttribute("fare")%></p></h3>
 			<button type="submit" class="btn btn-primary submit">Confirm</button>
 		</form>
 	</div>
@@ -137,6 +137,45 @@
 	console.log(year, month, date)
 	inputDate.min = year + '-' + month + '-' + date;
 	console.log(inputDate)
+	</script>
+	<script>
+	let totalFare = document.getElementById("totalFare");
+	let preCalFare = ('<%= request.getAttribute("fare")%>' - 0)*2;
+	totalFare.innerHTML = "$"+preCalFare
+	console.log(preCalFare)
+	let discounts = [{type: 'children', discount: 0.75},
+		{type: 'senior',  discount: 0.65},
+		{type: 'disabled',  discount: 0.5},
+		{type: 'normal',  discount: 1}];
+	let ticketType = document.getElementById("ticketType");
+	let roundTrip = document.getElementById("roundTrip");
+	roundTrip.addEventListener ("change", e => {
+		let value = e.target.value;
+		if (value == 'roundtrip'){
+			let temp = totalFare.innerHTML;
+			temp = (temp.substr(1) - 0) * 2;
+			totalFare.innerHTML = "$" + temp;
+			
+		}
+		else {
+			let temp = totalFare.innerHTML;
+			temp = (temp.substr(1) - 0) / 2;
+			totalFare.innerHTML = "$" + temp;
+			
+		}
+	})
+	ticketType.addEventListener("change", e => {
+		let type = e.target.value;
+		console.log(type)
+		let discount = discounts.find(d => d.type == type);
+		let roundTripValue = roundTrip.value;
+		console.log(roundTripValue)
+		if (roundTripValue == 'roundtrip')
+		totalFare.innerHTML = "$" + (preCalFare * discount.discount);
+		else totalFare.innerHTML = "$" + (preCalFare * discount.discount)/2;
+	})
+	
+	
 	</script>
 	
 </body>
