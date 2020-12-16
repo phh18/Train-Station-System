@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import= "java.util.ArrayList"%>
-<%@page import= "trainstation.model.Station" %>
-<%@page import= "trainstation.model.TrainSchedule" %>
+<%@page import= "trainstation.model.User" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Station Schedule</title>
+<title>User Reservation</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js">
@@ -17,46 +16,46 @@
 <body>
 	<nav class="nav nav-pills nav-justified mb-3">
 	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep">Question</a>
-	 <a class="nav-item nav-link active" href= "<%= request.getContextPath() %>/rep?schedule=station">Station Schedule</a>
+	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep?schedule=station">Station Schedule</a>
 	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep?schedule=edit">Edit Schedule</a>
-	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep?user=rev">Customer Reservation</a>
+	 <a class="nav-item nav-link active" href= "<%= request.getContextPath() %>/rep?user=rev">Customer Reservation</a>
 	 <a class="nav-item nav-link" href="<%= request.getContextPath() %>/logout">Log out</a>
 	</nav>
 	<div>
-		<% ArrayList<Station> stations = (ArrayList<Station>) request.getAttribute("stations"); %>
+		<% ArrayList<String> trains = (ArrayList<String>) request.getAttribute("trains"); %>
+		<% String lineName = request.getParameter("lineName"); %>
+		<% if(lineName == null) lineName = ""; %>
 		<form action="<%= request.getContextPath() %>/rep" method="get">
-			<label for="stations">Station</label>
-			<input type="hidden" name="schedule" value="station" ></input>
-			<select name="stationId" id="stations">
-				<% for(Station station : stations) { %>
-					<option value= <%= station.getStationId() %> > <%= station.getStationName() %> </option>
-				<% } %>
-			</select>
+			<input type="hidden" name="user" value="rev" ></input>
+			<label for="lineName">Line Name</label>
+			<input type="text" name="lineName" id="lineName" value= "<%= lineName %>" required/> 
+			<label for="date">Date</label>
+			<input type="date" name="date" id="date" value= <%= request.getParameter("date") %> required/> 
 			<button>Search</button>
 		</form>
 	</div>
-	<% ArrayList<TrainSchedule> schedule = (ArrayList<TrainSchedule>) request.getAttribute("schedule"); %>
-	<% if(schedule == null) schedule = new ArrayList<TrainSchedule>(); %>
-	<table class="table table-hover">
-		<thead>
-		  <tr>
-		    <th scope="col">TrainID</th>
-		    <th scope="col">StationID</th>
-		    <th scope="col">Arrival Time</th>
-		    <th scope="col">Depart Time</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  <% for (TrainSchedule train: schedule){%>
-		   <tr>
-		    <th scope="row"><%= train.gettrainId() %></th>
-		    <td><%= train.getstationId() %></td>
-		    <td><%= train.getArrivalTime() %></td>
-		    <td><%= train.getDepartTime() %></td>
-		  </tr>
-		  <%} %>
-		  
-		</tbody>
+	<% ArrayList<User> users = (ArrayList<User>) request.getAttribute("users"); %>
+	<% if(users == null) users = new ArrayList(); %>
+<table class="table table-hover">
+<thead>
+  <tr>
+    <th scope="col">Username</th>
+    <th scope="col">First Name</th>
+    <th scope="col">Last Name</th>
+    <th scope="col">Email</th>
+  </tr>
+</thead>
+<tbody>
+  <% for (User user: users){%>
+   <tr id=<%= user.getUsername() %>>
+    <th scope="row"><%= user.getUsername() %></th>
+    <td><%= user.getFirstName() %></td>
+    <td><%= user.getLastName() %></td>
+    <td><%= user.getEmail() %></td>
+  </tr>
+  <%} %>
+  
+</tbody>
 </table>
 </body>
 </html>

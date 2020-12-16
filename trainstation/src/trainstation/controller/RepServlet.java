@@ -63,6 +63,12 @@ public class RepServlet extends HttpServlet {
 			return;
 		}
 		
+		String user = request.getParameter("user");
+		if(user != null) {
+			getUsers(request, response);
+			return;
+		}
+		
 		ArrayList<Question> questions;
 		String keywords = request.getParameter("keywords");
 		//Handle keyword search
@@ -156,6 +162,25 @@ public class RepServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/editSchedule.jsp");
 		dispatcher.forward(request, response);
 	}
+	
+	protected void getUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String lineName = request.getParameter("lineName");
+		String date = request.getParameter("date");
+		ArrayList<User> users = null;
+		if(lineName != null && date != null) {
+			try {
+				users = StationHelp.getUsersByReservationLineAndDate(lineName, date);
+				request.setAttribute("users", users);
+			}
+			catch (Exception e) {
+				request.setAttribute("error", e);
+				e.printStackTrace();
+			}
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/Rep/userReservations.jsp");
+		dispatcher.forward(request, response);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -171,7 +196,7 @@ public class RepServlet extends HttpServlet {
 		}
 		
 		String schedule = request.getParameter("schedule");
-		if(schedule.equals("edit")) {
+		if(schedule!= null && schedule.equals("edit")) {
 			handleEditStop(request, response);
 			return;
 		}
@@ -219,7 +244,7 @@ public class RepServlet extends HttpServlet {
 		String oldArrivalTime = request.getParameter("oldArrivalTime");
 		String newArrivalTime = request.getParameter("newArrivalTime");
 		String departTime = request.getParameter("departTime");
-		int fare = Integer.parseInt(request.getParameter("fare"));
+		int fare = (request.getParameter("fare")!=null)? Integer.parseInt(request.getParameter("fare")):0;
 		String lineName = request.getParameter("lineName");
 		String origin = request.getParameter("origin");
 		String destination = request.getParameter("destination");
