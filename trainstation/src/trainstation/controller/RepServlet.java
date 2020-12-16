@@ -196,7 +196,7 @@ public class RepServlet extends HttpServlet {
 		}
 		
 		String schedule = request.getParameter("schedule");
-		if(schedule.equals("edit")) {
+		if(schedule!= null && schedule.equals("edit")) {
 			handleEditStop(request, response);
 			return;
 		}
@@ -244,7 +244,7 @@ public class RepServlet extends HttpServlet {
 		String oldArrivalTime = request.getParameter("oldArrivalTime");
 		String newArrivalTime = request.getParameter("newArrivalTime");
 		String departTime = request.getParameter("departTime");
-		int fare = Integer.parseInt(request.getParameter("fare"));
+		int fare = (request.getParameter("fare")!=null)? Integer.parseInt(request.getParameter("fare")):0;
 		String lineName = request.getParameter("lineName");
 		String origin = request.getParameter("origin");
 		String destination = request.getParameter("destination");

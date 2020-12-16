@@ -86,6 +86,7 @@
 		</table>
 
 		<div><button><a href="<%= request.getContextPath() %>/reserve">Reservation History</a></button></div>
+		<div><button><a href="<%= request.getContextPath() %>/question">Question</a></button></div>
 	</div>
 	
 	<script>
