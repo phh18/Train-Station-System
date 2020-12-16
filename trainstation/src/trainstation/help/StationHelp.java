@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import trainstation.model.Station;
 import trainstation.model.TrainRoute;
 import trainstation.model.TrainSchedule;
+import trainstation.model.User;
 
 public class StationHelp {
 	public static ArrayList<Station> getStations() throws ClassNotFoundException {
@@ -211,6 +212,39 @@ public class StationHelp {
             // process sql exception
             printSQLException(e);
         }
+	}
+	
+	public static ArrayList<User> getUsersByReservationLineAndDate(String lineName, String date) throws ClassNotFoundException {
+		ArrayList<User> users = new ArrayList<>();
+		String SELECT_USER_SQL = "SELECT DISTINCT u.userName, u.firstName, u.lastName, u.email " + 
+				"FROM users u, reservation r, trainSchedule t " + 
+				"WHERE u.userName = r.userName AND t.trainId = r.trainId " + 
+				"AND t.lineName= ? " + 
+				"AND r.travelDate= ? ;";
+		ResultSet result = null;
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://database-1.cjsw9rqqllkz.us-east-2.rds.amazonaws.com:3306/trainstation", "admin", "group28tlp");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_SQL)) {
+            preparedStatement.setString(1, lineName);
+            preparedStatement.setString(2, date);
+            result = preparedStatement.executeQuery();
+            System.out.println(preparedStatement);
+            while (result.next()) {
+            	String userName = result.getString("userName");
+            	String firstName = result.getString("firstName");
+            	String lastName = result.getString("lastName");
+            	String email = result.getString("email");
+            	
+				users.add(new User(userName, firstName, lastName, null, null, email, null));
+            }
+        } catch (SQLException e) {
+            // process sql exception
+            printSQLException(e);
+        }
+		return users;
 	}
 	
 	private static void printSQLException(SQLException ex) {
