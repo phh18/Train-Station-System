@@ -12,31 +12,48 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style type="text/css">
+	.main{
+		width: 60em;
+		margin: auto;	
+	}
+	.search{
+		justify-content: center;
+	}
+</style>
 </head>
 <body>
-	<a href= "<%= request.getContextPath() %>/rep?schedule=station">Station Schedule</a>
-	<a href= "<%= request.getContextPath() %>/rep?schedule=edit">Edit Schedule</a>
-	<form action="<%= request.getContextPath() %>/rep" method="get">
-		<input type='text' name='keywords'></input>
-		<button type="submit">Search</button>
+	<nav class="nav nav-pills nav-justified mb-3">
+	 <a class="nav-item nav-link active" href= "<%= request.getContextPath() %>/rep">Question</a>
+	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep?schedule=station">Station Schedule</a>
+	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep?schedule=edit">Edit Schedule</a>
+	 <a class="nav-item nav-link" href= "<%= request.getContextPath() %>/rep?user=rev">Customer Reservation</a>
+	 <a class="nav-item nav-link" href="<%= request.getContextPath() %>/logout">Log out</a>
+	</nav>
+	<form class="form-inline search" action="<%= request.getContextPath() %>/rep" method="get">
+		<div class="form-group">
+			<input class="form-control" type='text' name='keywords'></input>
+			<button class="btn btn-primary" type="submit">Search</button>
+		</div>
 	</form>
-	<div>
+	<div class="main">
 		<% ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute("questions"); %>
 		<% for(Question question : questions) { %>
-			<div>
-				<p><%= question.getQuestion() %></p>
-				<p>Asked by: <%= question.getCustid() %> </p>
+			<div class="question">
+				<h5><%= question.getQuestion() %></h5>
+				<p align="right">Asked by: <%= question.getCustid() %> </p>
 				<% if (question.getAnswer() == null) { %>
 					<form action="<%= request.getContextPath() %>/rep" method="post">
 						<input type= "hidden" name= "ans" value="0"></input>
 						<input type= "hidden" name= "qid" value= <%= question.getQid() %>></input>
-						<button>Answer</button>
+						<button class="btn btn-primary">Answer</button>
 					</form>
 				<% } else { %>
 					<p><%= question.getAnswer() %></p>
-					<p>Answered by: <%= question.getRepid() %></p>
+					<p align="right">Answered by: <%= question.getRepid() %></p>
 				<% } %>
 			</div>
+			<hr>
 		<% } %>
 	</div>
 </body>

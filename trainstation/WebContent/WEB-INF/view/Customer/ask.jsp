@@ -12,11 +12,29 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style type="text/css">
+	.main{
+		width: 60em;
+		margin: auto;	
+	}
+	.search{
+		justify-content: center;
+		text-align: center;
+	}
+</style>
 </head>
 <body>
-	<form action="<%= request.getContextPath() %>/question" method="post">
-		<input type="text" name="question" placeholder="Ask a question"></input>
-		<button>Ask</button>
+	<nav class="nav nav-pills nav-justified mb-3">
+	 <a class="nav-item nav-link active" href= "<%= request.getContextPath() %>/login">Back</a>
+	 <a class="nav-item nav-link disabled"></a>
+	 <a class="nav-item nav-link disabled"></a>
+	 <a class="nav-item nav-link disabled"></a>
+	</nav>
+	<form class="main" action="<%= request.getContextPath() %>/question" method="post">
+		<div class="form-group">
+		<textarea class="form-control" type="text" name="question" placeholder="Ask a question"></textarea>
+		<button class="btn">Ask</button>
+		</div>
 	</form>
 </body>
 </html>
