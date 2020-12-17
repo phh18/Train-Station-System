@@ -16,8 +16,8 @@ public class ReservationHelp {
 	
 	public int reservation(Reservation reservation) throws ClassNotFoundException {
         String INSERT_USERS_SQL = "INSERT INTO reservation" +
-            "  (trainId, origin, destination, tripType, travelDate, originTime, destinationTime, fare, userName, ticketType) VALUES " +
-            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "  (trainId, origin, destination, tripType, travelDate, originTime, destinationTime, fare, userName, ticketType, lineName) VALUES " +
+            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (select lineName from trainSchedule where trainId =?));";
 
         int result = 0;
 
@@ -39,6 +39,7 @@ public class ReservationHelp {
             preparedStatement.setInt(8, reservation.getFare());
             preparedStatement.setString(9, reservation.getUsername());
             preparedStatement.setString(10, reservation.getTicketType());
+            preparedStatement.setString(11, reservation.gettrainId());
 
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
